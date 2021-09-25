@@ -174,6 +174,22 @@ static char	isprint_test(int flag, int c)
 	}
 }
 
+char	itoa_test(int n, const char *expected)
+{
+	char	*created;
+	int		diff;
+
+	created = ft_itoa(n);
+	diff = 0;
+	if (!(created == NULL && expected == NULL))
+		diff = strcmp(created, expected);
+	free(created);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
 int main()
 {
 	char	*test_atoi;
@@ -184,6 +200,7 @@ int main()
 	char	*test_isascii;
 	char	*test_isdigit;
 	char	*test_isprint;
+	char	*test_itoa;
 	int	i;
 
 	test_atoi = (char *)malloc(sizeof(char) * 19);
@@ -194,6 +211,7 @@ int main()
 	test_isascii = (char *)malloc(sizeof(char) * 8);
 	test_isdigit = (char *)malloc(sizeof(char) * 6);
 	test_isprint = (char *)malloc(sizeof(char) * 11);
+	test_itoa = (char *)malloc(sizeof(char) * 7);
 	test_atoi[0] = atoi_test("42");
 	test_atoi[1] = atoi_test("1289439");
 	test_atoi[2] = atoi_test("-66847");
@@ -263,6 +281,13 @@ int main()
 	test_isprint[8] = isprint_test(FALSE, 0);
 	test_isprint[9] = isprint_test(FALSE, 128);
 	test_isprint[10] = '\0';
+	test_itoa[0] = itoa_test(42, "42");
+	test_itoa[1] = itoa_test(374621, "374621");
+	test_itoa[2] = itoa_test(-223876, "-223876");
+	test_itoa[3] = itoa_test(2147483647, "2147483647");
+	test_itoa[4] = itoa_test(-2147483647, "-2147483647");
+	test_itoa[5] = itoa_test(0, "0");
+	test_itoa[6] = '\0';
 	printf("\n********** LIBFT TESTER **********\n\n");
 	printf(" --------- \n");
 	printf("| ft_atoi |\n");
@@ -308,6 +333,13 @@ int main()
 	printf(" ------------ \n");
 	for(i = 0; i < 9; ++i)
 		printf("test [%d] = %c \n", i, test_isprint[i]);
-	
+	printf("\n");
+	printf(" --------- \n");
+	printf("| ft_itoa |\n");
+	printf(" --------- \n");
+	for(i = 0; i < 6; ++i)
+		printf("test [%d] = %c \n", i, test_itoa[i]);
+	printf("\n");	
+
 	return (0);
 }
