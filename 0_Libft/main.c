@@ -190,6 +190,110 @@ char	itoa_test(int n, const char *expected)
 		return ('N');
 }
 
+static char	memchr_test(void *s, int c, size_t n)
+{
+	if (ft_memchr(s, c, n) == memchr(s, c, n))
+		return ('Y');
+	else
+		return ('N');
+}
+int j = 0;
+static char	memcmp_test(const void *s1, const void *s2, size_t n)
+{
+	int c = ft_memcmp(s1, s2, n);
+    int e = memcmp(s1, s2, n);
+    if ((c < 0 && e < 0) || (c > 0 && e >0) || (c == 0 && e == 0))
+        return ('Y');
+    else
+        return ('N');
+}
+
+static char	memcpy_test(const void *src, size_t n)
+{
+	void	*a;
+	void	*b;
+	int		diff;
+
+	a = malloc(sizeof(unsigned char) * n);
+	if (a == NULL)
+		return ('\0');
+	b = malloc(sizeof(unsigned char) * n);
+	if (b == NULL)
+		return ('\0');
+
+	ft_memcpy(a, src, n);
+	memcpy(b, src, n);
+	diff = memcmp(a, b, n);
+	free(a);
+	free(b);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+
+static char	memmove_test(const void *src, size_t n)
+{
+	void	*a;
+	void	*b;
+	int		diff;
+
+	a = malloc(sizeof(unsigned char) * n);
+	if (a == NULL)
+		return ('\0');
+	b = malloc(sizeof(unsigned char) * n);
+	if (b == NULL)
+		return ('\0');
+
+	ft_memmove(a, src, n);
+	memmove(b, src, n);
+	diff = memcmp(a, b, n);
+	free(a);
+	free(b);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	memmove_test_overrap(const void *src, size_t n, int start, const void *expect)
+{
+	int		diff;
+	void	*tmp;
+
+	tmp = (void *)src;
+	ft_memmove(tmp + start, src, n);
+	diff = memcmp(src, expect, n);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char memmove_test_same(void)
+{
+	char	str[] = "same";
+	char	*ret;
+
+	ret = ft_memmove(str, str, 1);
+	if (ret == str)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char memmove_test_null(void)
+{
+	char	*ret;
+
+	ret = ft_memmove(NULL, NULL, 1);
+	if (ret == NULL)
+		return ('Y');
+	else
+		return ('N');
+}
+
 int main()
 {
 	char	*test_atoi;
@@ -201,6 +305,25 @@ int main()
 	char	*test_isdigit;
 	char	*test_isprint;
 	char	*test_itoa;
+	char	*test_memchr;
+	char	*test_memcmp;
+	char	*test_memcpy;
+	char	*test_memmove;
+	char	*str;
+	char	s1[] = "Born 2 code";
+	char	s2[] = "Future is Loading";
+	char	s3[] = "Lorem ipsum dolor sit amet";
+	char	s4[] = "Aenean porttitor sit amet mauris quis sodales.";
+	char	s5[] = "Aenean eleifend nibh ac dui elementum consectetur.";
+	int	array[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
+	int	array1[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
+	int	array2[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
+	int	array3[] = {3345, -99182, 67638, 3345, -1111, 67839};
+	int	array4[] = {3345, -99182, 67638, 2222, 37, 9802};
+	int		array5[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
+	int	num;
+	int	num1 = 42;
+	int	num2 = 42;
 	int	i;
 
 	test_atoi = (char *)malloc(sizeof(char) * 19);
@@ -212,6 +335,10 @@ int main()
 	test_isdigit = (char *)malloc(sizeof(char) * 6);
 	test_isprint = (char *)malloc(sizeof(char) * 11);
 	test_itoa = (char *)malloc(sizeof(char) * 7);
+	test_memchr = (char *)malloc(sizeof(char) * 9);
+	test_memcmp = (char *)malloc(sizeof(char) * 18);
+	test_memcpy = (char *)malloc(sizeof(char) * 5);
+	test_memmove = (char *)malloc(sizeof(char) * 14);
 	test_atoi[0] = atoi_test("42");
 	test_atoi[1] = atoi_test("1289439");
 	test_atoi[2] = atoi_test("-66847");
@@ -288,6 +415,82 @@ int main()
 	test_itoa[4] = itoa_test(-2147483647, "-2147483647");
 	test_itoa[5] = itoa_test(0, "0");
 	test_itoa[6] = '\0';
+	test_memchr[0] = memchr_test(s1, 'B', sizeof(s1));
+	test_memchr[1] = memchr_test(s1, '2', 6);
+	test_memchr[2] = memchr_test(s1, 'o', 100);
+	test_memchr[3] = memchr_test(s1, 'd', 0);
+	test_memchr[4] = memchr_test(s1, '#', 200);
+	test_memchr[5] = memchr_test(s2, 'k', 29);
+	test_memchr[6] = memchr_test(s2, 'i', 17);
+	test_memchr[7] = memchr_test(s2, '*', 33);
+	test_memchr[8] = '\0';
+	test_memcmp[0] = memcmp_test(s3, s3, sizeof(s3));
+	test_memcmp[1] = memcmp_test(s3, s3, 100);
+	test_memcmp[2] = memcmp_test(s3, s3, 0);
+	test_memcmp[3] = memcmp_test(s4, s3, 3);
+	test_memcmp[4] = memcmp_test(s4, s5, sizeof(s5));
+	test_memcmp[5] = memcmp_test(s4, s5, 5);
+	test_memcmp[6] = memcmp_test(s4, s5, 8);
+	test_memcmp[7] = memcmp_test(s4, s5, 9);
+	test_memcmp[8] = memcmp_test(s4, s5, 0);
+	test_memcmp[9] = memcmp_test("simply", "simple", 6);
+	test_memcmp[10] = memcmp_test("1337: Benguerir", "1337: Khouribga", 11);
+	test_memcmp[11] = memcmp_test("42 Network", "42 School", 15);
+	test_memcmp[12] = memcmp_test("42 FUTURE IS LOADING", "42 BORN2CODE", 100);
+	test_memcmp[13] = memcmp_test(&num1, &num2, sizeof(num1));
+	num1 = 42;
+	num2 = 33;
+	test_memcmp[14] = memcmp_test(&num1, &num2, sizeof(num1));
+	num1 = -687394;
+	num2 = 857768;;
+	test_memcmp[15] = memcmp_test(&num1, &num2, sizeof(num1));
+	test_memcmp[16] = memcmp_test(array1, array2, sizeof(array1));
+	test_memcmp[17] = memcmp_test(array3, array4, sizeof(array3));
+	test_memcmp[18] = '\0';
+	str = strdup("Simply the best");
+	test_memcpy[0] = memcpy_test(str, strlen(str) + 1);
+	free(str);
+	str = strdup("");
+	test_memcpy[1] = memcpy_test(str, strlen(str) + 1);
+	free(str);
+	num = 42;
+	test_memcpy[2] = memcpy_test(&num, sizeof(num));
+	num = 0;
+	test_memcpy[3] = memcpy_test(&num, sizeof(num));
+	test_memcpy[4] = memcpy_test(&array5, sizeof(array5)/sizeof(array5[0]));
+	test_memcpy[5] = '\0';
+	str = strdup("Time is money");
+	test_memmove[0] = memmove_test(str, strlen(str) + 1);
+	free(str);
+	str = strdup("Live the life to the fullest");
+	test_memmove[1] = memmove_test(str, strlen(str) + 1);
+	free(str);
+	str = strdup("Ma  	r vi    n 		!!");
+	test_memmove[2] = memmove_test(str, strlen(str) + 1);
+	free(str);
+	str = strdup("0123456789");
+	test_memmove[3] = memmove_test(str, 5);
+	free(str);
+	str = strdup("0123456789");
+	test_memmove[4] = memmove_test(str, 0);
+	free(str);	
+	num = 42;
+	test_memmove[5] = memmove_test(&num, sizeof(num));
+	num = 99999999;
+	test_memmove[6] = memmove_test(&num, sizeof(num));
+	num = -274672;
+	test_memmove[7] = memmove_test(&num, sizeof(num));
+	test_memmove[8] = memmove_test(&array, sizeof(array));	
+	str = strdup("01234567890123456789");
+	test_memmove[9] = memmove_test_overrap(str, 5, 3, "01201234890123456789");
+	free(str);
+	str = strdup("01234567890123456789");
+	test_memmove[10] = memmove_test_overrap(str, 7, 5, "01234012345623456789");
+	free(str);
+	test_memmove[11] = memmove_test_same();
+	test_memmove[12] = memmove_test_null();
+	test_memmove[13] = '\0';
+
 	printf("\n********** LIBFT TESTER **********\n\n");
 	printf(" --------- \n");
 	printf("| ft_atoi |\n");
@@ -339,6 +542,30 @@ int main()
 	printf(" --------- \n");
 	for(i = 0; i < 6; ++i)
 		printf("test [%d] = %c \n", i, test_itoa[i]);
+	printf("\n");	
+	printf(" ----------- \n");
+	printf("| ft_memchr |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 8; ++i)
+		printf("test [%d] = %c \n", i, test_memchr[i]);
+	printf("\n");	
+	printf(" ----------- \n");
+	printf("| ft_memcmp |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 18; ++i)
+		printf("test [%d] = %c \n", i, test_memcmp[i]);
+	printf("\n");	
+	printf(" ----------- \n");
+	printf("| ft_memcpy |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 5; ++i)
+		printf("test [%d] = %c \n", i, test_memcpy[i]);
+	printf("\n");	
+	printf(" ------------ \n");
+	printf("| ft_memmove |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 13; ++i)
+		printf("test [%d] = %c \n", i, test_memmove[i]);
 	printf("\n");	
 
 	return (0);
