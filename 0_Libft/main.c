@@ -5,6 +5,14 @@
 #include <stdlib.h>
 # define TRUE 1
 # define FALSE 0
+# define ANSI_RED "\x1b[31m" 
+# define ANSI_GREEN "\x1b[32m" 
+# define ANSI_YELLOW "\x1b[33m" 
+# define ANSI_BLUE "\x1b[34m" 
+# define ANSI_MAGENTA "\x1b[35m" 
+# define ANSI_CYAN "\x1b[36m" 
+# define ANSI_RESET  "\x1b[0m"
+# define STDOUT 1
 /* static char	bzero_test(size_t len)
 {
 	void	*a;
@@ -294,6 +302,30 @@ static char memmove_test_null(void)
 		return ('N');
 }
 
+static char	memset_test(int c, size_t len)
+{
+	void	*a;
+	void	*b;
+	int		diff;
+
+	a = malloc(sizeof(unsigned char) * (len));
+	if (a == NULL)
+		return ('\0');
+	b = malloc(sizeof(unsigned char) * (len));
+	if (b == NULL)
+		return ('\0');
+
+	ft_memset(a, c, len);
+	memset(b, c, len);
+	diff = memcmp(a, b, len);
+	free(a);
+	free(b);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
 int main()
 {
 	char	*test_atoi;
@@ -309,6 +341,7 @@ int main()
 	char	*test_memcmp;
 	char	*test_memcpy;
 	char	*test_memmove;
+	char	*test_memset;
 	char	*str;
 	char	s1[] = "Born 2 code";
 	char	s2[] = "Future is Loading";
@@ -325,6 +358,8 @@ int main()
 	int	num1 = 42;
 	int	num2 = 42;
 	int	i;
+	int	j = 0;
+	int	k = 0;
 
 	test_atoi = (char *)malloc(sizeof(char) * 19);
 	//test_bzero = (char *)malloc(sizeof(char) * 4);
@@ -339,6 +374,7 @@ int main()
 	test_memcmp = (char *)malloc(sizeof(char) * 18);
 	test_memcpy = (char *)malloc(sizeof(char) * 5);
 	test_memmove = (char *)malloc(sizeof(char) * 14);
+	test_memset = (char *)malloc(sizeof(char) * 4);
 	test_atoi[0] = atoi_test("42");
 	test_atoi[1] = atoi_test("1289439");
 	test_atoi[2] = atoi_test("-66847");
@@ -490,83 +526,227 @@ int main()
 	test_memmove[11] = memmove_test_same();
 	test_memmove[12] = memmove_test_null();
 	test_memmove[13] = '\0';
-
-	printf("\n********** LIBFT TESTER **********\n\n");
+	test_memset[0] = memset_test('@', 10);
+	test_memset[1] = memset_test('!', 20);
+	test_memset[2] = memset_test('0', 0);
+	test_memset[3] = '\0';
+	printf(ANSI_BLUE "\n********** LIBFT TESTER **********\n\n");
 	printf(" --------- \n");
 	printf("| ft_atoi |\n");
 	printf(" --------- \n");
 	for(i = 0; i < 18; ++i)
-		printf("test [%d] = %c \n", i, test_atoi[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_atoi[i]);
+	if (test_atoi[i >= 0 && i < 18] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_atoi : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_atoi : KO\n");
+	k++;
 	printf("\n");	
-	/*printf("ft_bzero \n");
+	/*	j++;
+	 printf("ft_bzero \n");
 	for(i = 0; i < 3; ++i)
 		printf("test [%d] = %c \n", i , test_bzero[i]); */
-	printf(" ----------- \n");
+	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_calloc |\n");
 	printf(" ----------- \n");
 	for(i = 0; i < 3; ++i)
-		printf("test [%d] = %c \n", i , test_calloc[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i , test_calloc[i]);
+	if (test_calloc[i >= 0 && i < 3] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_calloc : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_calloc : KO\n");
+	k++;
 	printf("\n");
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_isalnum |\n");
 	printf(" ------------ \n");
 	for( i = 0; i < 10; ++i)
-		printf("test [%d] = %c \n", i , alnum_test[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i , alnum_test[i]);
+	if (alnum_test[i >= 0 && i < 10] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isalnum : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isalnum : KO\n");
+	k++;	
 	printf("\n");
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_islapha |\n");
 	printf(" ------------\n");
 	for( i = 0; i < 5; ++i)
-		printf("test [%d] = %c \n", i , test_isalpha[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i , test_isalpha[i]);
+	if (test_isalpha[i >= 0 && i < 5] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isalpha : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isalpa : KO\n");
+	k++;
 	printf("\n");
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_isascii |\n");
 	printf(" ------------ \n");
 	for(i = 0; i < 7; ++i)
-		printf("test [%d] = %c \n", i, test_isascii[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_isascii[i]);
+	if (test_isascii[i >= 0 && i < 7] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isascii : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isascii : KO\n");
+	k++;
 	printf("\n");
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_isdigit |\n");
 	printf(" ------------ \n");
 	for(i = 0; i < 5; ++i)
-		printf("test [%d] = %c \n", i, test_isdigit[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_isdigit[i]);
+	if (test_isdigit[i >= 0 && i < 5] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isdigit : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isdigit : KO\n");
+	k++;	
 	printf("\n");
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_isprint |\n");
 	printf(" ------------ \n");
 	for(i = 0; i < 9; ++i)
-		printf("test [%d] = %c \n", i, test_isprint[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_isprint[i]);
+	if (test_isprint[i >= 0 && i < 9] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isprint : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isprint : KO\n");
+	k++;		
 	printf("\n");
-	printf(" --------- \n");
+	printf(ANSI_BLUE " --------- \n");
 	printf("| ft_itoa |\n");
 	printf(" --------- \n");
 	for(i = 0; i < 6; ++i)
-		printf("test [%d] = %c \n", i, test_itoa[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_itoa[i]);
+	if (test_itoa[i >= 0 && i < 6] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_isitoa : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_isitoa : KO\n");
+	k++;		
 	printf("\n");	
-	printf(" ----------- \n");
+	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_memchr |\n");
 	printf(" ----------- \n");
 	for(i = 0; i < 8; ++i)
-		printf("test [%d] = %c \n", i, test_memchr[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_memchr[i]);
+	if (test_memchr[i >= 0 && i < 8] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_ismemchr : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_ismemchr : KO\n");
+	k++;
 	printf("\n");	
-	printf(" ----------- \n");
+	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_memcmp |\n");
 	printf(" ----------- \n");
 	for(i = 0; i < 18; ++i)
-		printf("test [%d] = %c \n", i, test_memcmp[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_memcmp[i]);
+	if (test_memcmp[i >= 0 && i < 18] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_ismemcmp : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_ismemcmp : KO\n");
+	k++;
 	printf("\n");	
-	printf(" ----------- \n");
+	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_memcpy |\n");
 	printf(" ----------- \n");
 	for(i = 0; i < 5; ++i)
-		printf("test [%d] = %c \n", i, test_memcpy[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_memcpy[i]);
+	if (test_memcpy[i >= 0 && i < 5] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_ismemcpy : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_ismemcpy : KO\n");
+	k++;
 	printf("\n");	
-	printf(" ------------ \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_memmove |\n");
 	printf(" ------------ \n");
 	for(i = 0; i < 13; ++i)
-		printf("test [%d] = %c \n", i, test_memmove[i]);
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_memmove[i]);
+	if (test_memmove[i >= 0 && i < 13] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_ismemmove : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_ismemmove : KO\n");
+	k++;	
 	printf("\n");	
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_memset |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i , test_memset[i]);
+	if (test_calloc[i >= 0 && i < 3] == 'Y')
+	{
+		printf(ANSI_GREEN "ft_memset : OK\n");
+		j++;
+	}
+	else
+		printf(ANSI_RED "ft_memset : KO\n");
+	k++;
+	printf("\n");
+	/* printf(ANSI_BLUE " --------------- \n");
+	printf("| ft_putchar_fd |\n");
+	printf(" --------------- \n");
+	printf(ANSI_MAGENTA "\\\\\\\\!!1337!!////\n");
+	ft_putchar_fd('\\', STDOUT);
+	ft_putchar_fd('\\', STDOUT);
+	ft_putchar_fd('\\', STDOUT);
+	ft_putchar_fd('\\', STDOUT);
+	ft_putchar_fd('!', STDOUT);
+	ft_putchar_fd('!', STDOUT);
+	ft_putchar_fd('1', STDOUT);
+	ft_putchar_fd('3', STDOUT);
+	ft_putchar_fd('3', STDOUT);
+	ft_putchar_fd('7', STDOUT);
+	ft_putchar_fd('!', STDOUT);
+	ft_putchar_fd('!', STDOUT);
+	ft_putchar_fd('/', STDOUT);
+	ft_putchar_fd('/', STDOUT);
+	ft_putchar_fd('/', STDOUT);
+	ft_putchar_fd('/', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+	j++;
+	k++;
+	printf("\n"); */
+	
 
+	if (j == k)
+		printf(ANSI_GREEN "LIBFT ==> OK\n");
+	else
+	 	printf(ANSI_RED "LIBFT ==> KO\n Functions = %d/%d\n", j, k);
+	printf(" %d functions", k);
 	return (0);
 }
