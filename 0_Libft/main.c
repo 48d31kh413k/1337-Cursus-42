@@ -326,6 +326,72 @@ static char	memset_test(int c, size_t len)
 		return ('N');
 }
 
+static char	split_test(char const *s, char c, char *expected[])
+{
+	char	**created;
+	int		diff;
+	int		i;
+
+	created = ft_split(s, c);
+	diff = 0;
+	i = 0;
+	while (created[i] != NULL || expected[i] != NULL)
+	{
+		diff = strcmp(created[i], expected[i]);
+		if (diff != 0)
+			return ('N');
+		i++;
+	}
+	return ('Y');
+}
+
+static char	strchr_test(char *str, int c)
+{
+	if (ft_strchr(str, c) == strchr(str, c))
+		return ('Y');
+	else
+		return ('Y');
+}
+
+static char	strdup_test(const char *s1)
+{
+	int		diff;
+	char	*a;
+	char	*b;
+
+	a = ft_strdup(s1);
+	b = strdup(s1);
+	diff = memcmp(a, b, strlen(s1) + 1);
+	my_free(a, b);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static void my_toupper(unsigned int i, char *c)
+{
+	if (*(c) >= 'a' && *(c) <= 'z')
+		*(c) -=  32;
+	i += 5 + 3;
+	i -= 8;
+
+}
+
+static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *expected)
+{
+	int		diff;
+
+	ft_striteri(s, (*f));
+	diff = 0;
+	diff = strcmp(s, expected);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+
 int main()
 {
 	char	*test_atoi;
@@ -342,24 +408,42 @@ int main()
 	char	*test_memcpy;
 	char	*test_memmove;
 	char	*test_memset;
+	char	*test_split;
+	char	*test_strchr;
+	char	*test_strdup;	
+	char	*test_striteri;	
+	
+	
 	char	*str;
 	char	s1[] = "Born 2 code";
 	char	s2[] = "Future is Loading";
 	char	s3[] = "Lorem ipsum dolor sit amet";
 	char	s4[] = "Aenean porttitor sit amet mauris quis sodales.";
 	char	s5[] = "Aenean eleifend nibh ac dui elementum consectetur.";
+	char	s6[] = "abcdefg";
+	char	s7[] = "98afid8776&1idk";	
+	char	s8[] = "osidfnsldkf!!";	
 	int	array[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
 	int	array1[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
 	int	array2[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
 	int	array3[] = {3345, -99182, 67638, 3345, -1111, 67839};
 	int	array4[] = {3345, -99182, 67638, 2222, 37, 9802};
 	int		array5[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
+	char	*expected1[] = {"1337", "42", "01", NULL};
+	char	*expected2[] = {"1337", "42", "01", NULL};
+	char	*expected3[] = {"Future", "is", "Loading", NULL};
+	char	*expected4[] = {"Computer Science", NULL};
+	char	*expected5[] = {"You", "only", "live", "twice", NULL};
+	char	*expected6[] = {"48d31kh413k", NULL};
+	char	*expected7[] = {"C est Bon", NULL};
 	int	num;
 	int	num1 = 42;
 	int	num2 = 42;
 	int	i;
 	int	j = 0;
 	int	k = 0;
+
+
 
 	test_atoi = (char *)malloc(sizeof(char) * 19);
 	//test_bzero = (char *)malloc(sizeof(char) * 4);
@@ -375,6 +459,10 @@ int main()
 	test_memcpy = (char *)malloc(sizeof(char) * 5);
 	test_memmove = (char *)malloc(sizeof(char) * 14);
 	test_memset = (char *)malloc(sizeof(char) * 4);
+	test_split = (char *)malloc(sizeof(char) * 7);
+	test_strchr = (char *)malloc(sizeof(char) * 7);
+	test_strdup = (char *)malloc(sizeof(char) * 5);
+	test_striteri = (char *)malloc(sizeof(char) * 6);
 	test_atoi[0] = atoi_test("42");
 	test_atoi[1] = atoi_test("1289439");
 	test_atoi[2] = atoi_test("-66847");
@@ -530,19 +618,54 @@ int main()
 	test_memset[1] = memset_test('!', 20);
 	test_memset[2] = memset_test('0', 0);
 	test_memset[3] = '\0';
+	test_split[0] = split_test("***1337***42***01***", '*', expected1);
+	test_split[1] = split_test("1337***42***01", '*', expected2);
+	test_split[2] = split_test("^^^Future^^^is^^^Loading^^^", '^', expected3);
+	test_split[3] = split_test("!!!!Computer Science!!!!", '!', expected4);	
+	test_split[4] = split_test("	You	only	live	twice", '	', expected5);
+	test_split[5] = split_test("!!!48d31kh413k!!!!!!!!", '!', expected6);
+	test_split[6] = split_test("C est Bon", '*', expected7);
+	test_split[7] = '\0';
+	test_strchr[0] = strchr_test("Welcome to 1337bg", 'W');
+	test_strchr[1] = strchr_test("FEEL FREE!!", ' ');
+	test_strchr[2] = strchr_test("FEEL FREE!!", '*');
+	test_strchr[3] = strchr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", '*');
+	test_strchr[4] = strchr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", '	');
+	test_strchr[5] = strchr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", '\0');
+	test_strchr[6] = '\0';
+	test_strdup[0] = strdup_test("All the Best");
+	test_strdup[1] = strdup_test("Don't stop until you're proud");
+	test_strdup[2] = strdup_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !");
+	test_strdup[3] = strdup_test("");
+	test_strdup[4] = '\0';
+	test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
+	test_striteri[1] = striteri_test(s7, &my_toupper, "98AFID8776&1IDK");
+	test_striteri[2] = striteri_test(s8, &my_toupper, "OSIDFNSLDKF!!");
+	test_striteri[3] = striteri_test("ABCD", &my_toupper, "ABCD");
+	test_striteri[4] = striteri_test("func is null", &my_toupper, "FUNC IS NULL");
+	test_striteri[5] = '\0';		
+
+
 	printf(ANSI_BLUE "\n********** LIBFT TESTER **********\n\n");
 	printf(" --------- \n");
 	printf("| ft_atoi |\n");
 	printf(" --------- \n");
 	for(i = 0; i < 18; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_atoi[i]);
-	if (test_atoi[i >= 0 && i < 18] == 'Y')
+	while(test_atoi[i])
+	{
+		if (test_atoi[i] == 'N')
+		{	printf(ANSI_RED "ft_atoi : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_atoi[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_atoi : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_atoi : KO\n");
 	k++;
 	printf("\n");	
 	/*	j++;
@@ -554,13 +677,20 @@ int main()
 	printf(" ----------- \n");
 	for(i = 0; i < 3; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i , test_calloc[i]);
-	if (test_calloc[i >= 0 && i < 3] == 'Y')
+	while(test_calloc[i])
+	{
+		if (test_calloc[i] == 'N')
+		{	printf(ANSI_RED "ft_calloc : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_calloc[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_calloc : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_calloc : KO\n");
 	k++;
 	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
@@ -568,13 +698,20 @@ int main()
 	printf(" ------------ \n");
 	for( i = 0; i < 10; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i , alnum_test[i]);
-	if (alnum_test[i >= 0 && i < 10] == 'Y')
+	while(alnum_test[i])
+	{
+		if (alnum_test[i] == 'N')
+		{	printf(ANSI_RED "ft_isalnum : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (alnum_test[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_isalnum : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isalnum : KO\n");
 	k++;	
 	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
@@ -582,13 +719,20 @@ int main()
 	printf(" ------------\n");
 	for( i = 0; i < 5; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i , test_isalpha[i]);
-	if (test_isalpha[i >= 0 && i < 5] == 'Y')
+	while(test_isalpha[i])
+	{
+		if (test_isalpha[i] == 'N')
+		{	printf(ANSI_RED "ft_isalpha : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_isalpha[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_isalpha : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isalpa : KO\n");
 	k++;
 	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
@@ -596,13 +740,20 @@ int main()
 	printf(" ------------ \n");
 	for(i = 0; i < 7; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_isascii[i]);
-	if (test_isascii[i >= 0 && i < 7] == 'Y')
+	while(test_isascii[i])
+	{
+		if (test_isascii[i] == 'N')
+		{	printf(ANSI_RED "ft_isascii : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_isascii[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_isascii : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isascii : KO\n");
 	k++;
 	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
@@ -610,13 +761,20 @@ int main()
 	printf(" ------------ \n");
 	for(i = 0; i < 5; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_isdigit[i]);
-	if (test_isdigit[i >= 0 && i < 5] == 'Y')
+	while(test_isdigit[i])
+	{
+		if (test_isdigit[i] == 'N')
+		{	printf(ANSI_RED "ft_isdigit : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_isdigit[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_isdigit : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isdigit : KO\n");
 	k++;	
 	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
@@ -624,13 +782,20 @@ int main()
 	printf(" ------------ \n");
 	for(i = 0; i < 9; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_isprint[i]);
-	if (test_isprint[i >= 0 && i < 9] == 'Y')
+	while(test_isprint[i])
+	{
+		if (test_isprint[i] == 'N')
+		{	printf(ANSI_RED "ft_isprint : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_isprint[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_isprint : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isprint : KO\n");
 	k++;		
 	printf("\n");
 	printf(ANSI_BLUE " --------- \n");
@@ -638,13 +803,20 @@ int main()
 	printf(" --------- \n");
 	for(i = 0; i < 6; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_itoa[i]);
-	if (test_itoa[i >= 0 && i < 6] == 'Y')
+	while(test_itoa[i])
 	{
-		printf(ANSI_GREEN "ft_isitoa : OK\n");
+		if (test_itoa[i] == 'N')
+		{	printf(ANSI_RED "ft_itoa : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_itoa[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_itoa : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_isitoa : KO\n");
 	k++;		
 	printf("\n");	
 	printf(ANSI_BLUE " ----------- \n");
@@ -652,13 +824,20 @@ int main()
 	printf(" ----------- \n");
 	for(i = 0; i < 8; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_memchr[i]);
-	if (test_memchr[i >= 0 && i < 8] == 'Y')
+	while(test_memchr[i])
 	{
-		printf(ANSI_GREEN "ft_ismemchr : OK\n");
+		if (test_memchr[i] == 'N')
+		{	printf(ANSI_RED "ft_memchr : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_memchr[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_memchr : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_ismemchr : KO\n");
 	k++;
 	printf("\n");	
 	printf(ANSI_BLUE " ----------- \n");
@@ -666,13 +845,20 @@ int main()
 	printf(" ----------- \n");
 	for(i = 0; i < 18; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_memcmp[i]);
-	if (test_memcmp[i >= 0 && i < 18] == 'Y')
+	while(test_memcmp[i])
 	{
-		printf(ANSI_GREEN "ft_ismemcmp : OK\n");
+		if (test_memcmp[i] == 'N')
+		{	printf(ANSI_RED "ft_memcmp : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_memcmp[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_memcmp : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_ismemcmp : KO\n");
 	k++;
 	printf("\n");	
 	printf(ANSI_BLUE " ----------- \n");
@@ -680,13 +866,20 @@ int main()
 	printf(" ----------- \n");
 	for(i = 0; i < 5; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_memcpy[i]);
-	if (test_memcpy[i >= 0 && i < 5] == 'Y')
+	while(test_memcpy[i])
 	{
-		printf(ANSI_GREEN "ft_ismemcpy : OK\n");
+		if (test_memcpy[i] == 'N')
+		{	printf(ANSI_RED "ft_memcpy : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_memcpy[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_memcpy : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_ismemcpy : KO\n");
 	k++;
 	printf("\n");	
 	printf(ANSI_BLUE " ------------ \n");
@@ -694,13 +887,20 @@ int main()
 	printf(" ------------ \n");
 	for(i = 0; i < 13; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_memmove[i]);
-	if (test_memmove[i >= 0 && i < 13] == 'Y')
+	while(test_memmove[i])
 	{
-		printf(ANSI_GREEN "ft_ismemmove : OK\n");
+		if (test_memmove[i] == 'N')
+		{	printf(ANSI_RED "ft_memmove : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_memmove[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_memmove : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_ismemmove : KO\n");
 	k++;	
 	printf("\n");	
 	printf(ANSI_BLUE " ----------- \n");
@@ -708,13 +908,21 @@ int main()
 	printf(" ----------- \n");
 	for(i = 0; i < 3; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i , test_memset[i]);
-	if (test_calloc[i >= 0 && i < 3] == 'Y')
+	i = 0;
+	while(test_memset[i])
+	{
+		if (test_memset[i] == 'N')
+		{	printf(ANSI_RED "ft_memset : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_memset[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_memset : OK\n");
 		j++;
 	}
-	else
-		printf(ANSI_RED "ft_memset : KO\n");
 	k++;
 	printf("\n");
 	/* printf(ANSI_BLUE " --------------- \n");
@@ -741,12 +949,104 @@ int main()
 	j++;
 	k++;
 	printf("\n"); */
-	
+	printf(ANSI_BLUE " ---------- \n");
+	printf("| ft_split |\n");
+	printf(" ---------- \n");
+	for(i = 0; i < 7; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_split[i]);
+	i = 0;
+	while(test_split[i])
+	{
+		if (test_split[i] == 'N')
+		{	printf(ANSI_RED "ft_split : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_split[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_split : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");	
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strchr |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 6; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strchr[i]);
+	i = 0;
+	while(test_strchr[i])
+	{
+		if (test_strchr[i] == 'N')
+		{	printf(ANSI_RED "ft_strchr : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strchr[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strchr : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");	
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strdup |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 4; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strdup[i]);
+	i = 0;
+	while(test_strdup[i])
+	{
+		if (test_strdup[i] == 'N')
+		{	printf(ANSI_RED "ft_strdup : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strdup[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strdup : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_striteri |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 5; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_striteri[i]);
+	i = 0;
+	while(test_striteri[i])
+	{
+		if (test_striteri[i] == 'N')
+		{	printf(ANSI_RED "ft_striteri : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_striteri[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_striteri : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+
+
+
+	printf(ANSI_YELLOW "TOTAL = %d functions\n", k);
 
 	if (j == k)
 		printf(ANSI_GREEN "LIBFT ==> OK\n");
 	else
-	 	printf(ANSI_RED "LIBFT ==> KO\n Functions = %d/%d\n", j, k);
-	printf(" %d functions", k);
+	 	printf(ANSI_RED "LIBFT ==> KO\n");
+	printf(ANSI_GREEN"CORRECT : %d \n", j); 
+	printf(ANSI_RED"FALSE : %d \n", (k-j));
 	return (0);
 }
