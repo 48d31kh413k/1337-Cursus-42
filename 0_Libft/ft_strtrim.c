@@ -21,7 +21,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	while (s1 != '\0')
+	while (s1)
 	{
 		if (ft_check_set(((char)*s1), set) == 1)
 			s1++;
