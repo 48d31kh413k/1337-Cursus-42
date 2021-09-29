@@ -369,7 +369,7 @@ static char	strdup_test(const char *s1)
 		return ('N');
 }
 
-static void my_toupper(unsigned int i, char *c)
+/* static void my_toupper(unsigned int i, char *c)
 {
 	if (*(c) >= 'a' && *(c) <= 'z')
 		*(c) -=  32;
@@ -389,8 +389,109 @@ static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *e
 		return ('Y');
 	else
 		return ('N');
+} */
+
+
+static char	strjoin_test(char const *s1, char const *s2, char const *expected)
+{
+	char	*created;
+	int		diff;
+
+	created = ft_strjoin(s1, s2);
+	diff = 0;
+	if (!(created == NULL && expected == NULL))
+		diff = strcmp(created, expected);
+	free(created);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
 }
 
+
+static char	strlcat_test(char *dst, char *dste, const char *src, size_t dstsize)
+{
+	int		diff;
+
+	ft_strlcat(dst, src, dstsize);
+	diff = strcmp(dst, dste);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+size_t ft_strlcpy1(char *dst, const char *src, size_t dstsize)
+{
+    size_t offset;
+
+    /* duplicate the string up to dstsize */
+    offset = 0;
+        /* guard against silly dstsize values */
+    if( dstsize > 0 )
+    {
+        while( *(src+offset) != '\0' )
+        {
+            /* bail if dstsize is met */
+
+
+            /* duplicate the string */
+            *(dst+offset) = *(src+offset);
+            offset++;
+		if( offset == dstsize)
+            {
+                offset--;
+                break;
+            }
+        }
+    }
+    /* always remember to cap a created string! */
+    *(dst+offset) = '\0';
+    
+    /* return the string length of src */
+    while( *(src+offset) != '\0' )
+        offset++;
+
+    return(offset);
+}
+
+
+static char	strlcpy_test(const char *src, size_t dstsize)
+{
+	char	*dst1;
+	char	*dst2;
+	size_t	ret1;
+	size_t	ret2;
+	int		diff;
+
+	dst1 = (char *)malloc(sizeof(char) * dstsize);
+	if (dst1 == NULL)
+		return ('\0');
+	dst2 = (char *)malloc(sizeof(char) * dstsize);
+	if (dst2 == NULL)
+		return ('\0');
+	
+	ret1 = ft_strlcpy(dst1, src, dstsize);
+	ret2 = ft_strlcpy1(dst2, src, dstsize);
+	printf("%s | %s\n", dst1, dst2);
+	diff = strcmp(dst1, dst2);
+	free(dst1);
+	free(dst2);
+	if (ret1 == ret2 && diff == 0)
+		return ('Y');
+	else
+		return ('N');
+
+}
+
+static char	strlen_test(char *str)
+{
+
+	if (ft_strlen(str) == strlen(str))
+		return ('Y');
+	else
+		return ('N');
+}
 
 int main()
 {
@@ -411,18 +512,32 @@ int main()
 	char	*test_split;
 	char	*test_strchr;
 	char	*test_strdup;	
-	char	*test_striteri;	
-	
-	
+	//char	*test_striteri;	
+	char	*test_strjoin;
+	char	*test_strlcat;
+	char	*test_strlcpy;
+	char	*test_strlen;
+
 	char	*str;
 	char	s1[] = "Born 2 code";
 	char	s2[] = "Future is Loading";
 	char	s3[] = "Lorem ipsum dolor sit amet";
 	char	s4[] = "Aenean porttitor sit amet mauris quis sodales.";
 	char	s5[] = "Aenean eleifend nibh ac dui elementum consectetur.";
-	char	s6[] = "abcdefg";
-	char	s7[] = "98afid8776&1idk";	
-	char	s8[] = "osidfnsldkf!!";	
+	//char	s6[] = "abcdefg";
+	//char	s7[] = "98afid8776&1idk";	
+	//char	s8[] = "osidfnsldkf!!";	
+	char	src9[] = "67890";
+	char	src10[] = "67890";
+	char	src11[] = "67890";
+	char	src12[] = "67890";
+	char	src13[] = "67890";
+	char	src14[] = "67890";
+	char	src15[] = "67890";
+	char	src16[] = "67890";
+	char	src17[] = "67890";
+	char	src18[] = "42";
+	char	src19[] = "Born2code";
 	int	array[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
 	int	array1[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
 	int	array2[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
@@ -436,6 +551,17 @@ int main()
 	char	*expected5[] = {"You", "only", "live", "twice", NULL};
 	char	*expected6[] = {"48d31kh413k", NULL};
 	char	*expected7[] = {"C est Bon", NULL};
+	char	dst_a1[20] = "12345";
+	char	dst_a2[8] = "12345";
+	char	dst_a3[6] = "12345";
+	char	dst_a4[6] = "12345";
+	char	dst_a5[6] = "12345";
+	char	dst_a6[6] = "12345";
+	char	dst_a7[6] = "12345";
+	char	dst_a8[6] = "12345";
+	char	dst_a9[6] = "12345";
+	char	dst_a10[20] = "42 Network";
+	char	dst_a11[30] = "1337 Benguerir";
 	int	num;
 	int	num1 = 42;
 	int	num2 = 42;
@@ -462,7 +588,13 @@ int main()
 	test_split = (char *)malloc(sizeof(char) * 7);
 	test_strchr = (char *)malloc(sizeof(char) * 7);
 	test_strdup = (char *)malloc(sizeof(char) * 5);
-	test_striteri = (char *)malloc(sizeof(char) * 6);
+	//test_striteri = (char *)malloc(sizeof(char) * 6);
+	test_strjoin = (char *)malloc(sizeof(char) * 7);
+	test_strlcat = (char *)malloc(sizeof(char) * 12);
+	test_strlcpy = (char *)malloc(sizeof(char) * 7);
+	test_strlen = (char *)malloc(sizeof(char) * 4);
+
+
 	test_atoi[0] = atoi_test("42");
 	test_atoi[1] = atoi_test("1289439");
 	test_atoi[2] = atoi_test("-66847");
@@ -638,12 +770,43 @@ int main()
 	test_strdup[2] = strdup_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !");
 	test_strdup[3] = strdup_test("");
 	test_strdup[4] = '\0';
-	test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
+	/* test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
 	test_striteri[1] = striteri_test(s7, &my_toupper, "98AFID8776&1IDK");
 	test_striteri[2] = striteri_test(s8, &my_toupper, "OSIDFNSLDKF!!");
 	test_striteri[3] = striteri_test("ABCD", &my_toupper, "ABCD");
 	test_striteri[4] = striteri_test("func is null", &my_toupper, "FUNC IS NULL");
-	test_striteri[5] = '\0';		
+	test_striteri[5] = '\0';	*/	
+	test_strjoin[0] = strjoin_test("1337", " 42", "1337 42");
+	test_strjoin[1] = strjoin_test("42", " Network", "42 Network");
+	test_strjoin[2] = strjoin_test("Live", " Free", "Live Free");
+	test_strjoin[3] = strjoin_test(NULL, "test", NULL);
+	test_strjoin[4] = strjoin_test("test", NULL, NULL);
+	test_strjoin[5] = strjoin_test(NULL, NULL, NULL);
+	test_strjoin[6] = '\0';
+	test_strlcat[0] = strlcat_test(dst_a1, "1234567890", src9, 20);
+	test_strlcat[1] = strlcat_test(dst_a2, "1234567", src10, 8);
+	test_strlcat[2] = strlcat_test(dst_a3, "12345", src11, 6);
+	test_strlcat[3] = strlcat_test(dst_a4, "12345", src12, 5);
+	test_strlcat[4] = strlcat_test(dst_a5, "12345", src13, 4);
+	test_strlcat[5] = strlcat_test(dst_a6, "12345", src14, 3);
+	test_strlcat[6] = strlcat_test(dst_a7, "12345", src15, 2);
+	test_strlcat[7] = strlcat_test(dst_a8, "12345", src16, 1);
+	test_strlcat[8] = strlcat_test(dst_a9, "12345", src17, 0);
+	test_strlcat[9] = strlcat_test(dst_a10, "42 Network42", src18, sizeof(dst_a10));
+	test_strlcat[10] = strlcat_test(dst_a11, "1337 BenguerirBorn2code", src19, sizeof(dst_a11));
+	test_strlcat[11] = '\0';
+	test_strlcpy[0] = strlcpy_test("Born2code", 20);
+	test_strlcpy[1] = strlcpy_test("133713377", 9);
+	test_strlcpy[2] = strlcpy_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", 30);
+	test_strlcpy[3] = strlcpy_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", 0);
+	test_strlcpy[4] = strlcpy_test("", 10);
+	test_strlcpy[5] = strlcpy_test("", 0);
+	test_strlcpy[6] = '\0';
+	test_strlen[0] = strlen_test("ksldjfvndjkfvndf");
+	test_strlen[1] = strlen_test("sùpc,ksmdjncvskdlcnsdilck");
+	test_strlen[2] = strlen_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		");
+	test_strlen[3] = '\0';
+
 
 
 	printf(ANSI_BLUE "\n********** LIBFT TESTER **********\n\n");
@@ -1015,7 +1178,7 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	printf(ANSI_BLUE " ------------- \n");
+	 /* printf(ANSI_BLUE " ------------- \n");
 	printf("| ft_striteri |\n");
 	printf(" ------------- \n");
 	for(i = 0; i < 5; ++i)
@@ -1036,7 +1199,97 @@ int main()
 		j++;
 	}
 	k++;	
+	printf("\n"); */
+	printf(ANSI_BLUE " ------------ \n");
+	printf("| ft_strjoin |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 6; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strjoin[i]);
+	i = 0;
+	while(test_strjoin[i])
+	{
+		if (test_strjoin[i] == 'N')
+		{	printf(ANSI_RED "ft_strjoin : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strjoin[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strjoin : OK\n");
+		j++;
+	}
+	k++;	
 	printf("\n");
+	printf(ANSI_BLUE " ------------ \n");
+	printf("| ft_strlcat |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 11; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strlcat[i]);
+	i = 0;
+	while(test_strlcat[i])
+	{
+		if (test_strlcat[i] == 'N')
+		{	printf(ANSI_RED "ft_strlcat : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strlcat[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strlcat : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------ \n");
+	printf("| ft_strlcpy |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 6; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strlcpy[i]);
+	i = 0;
+	while(test_strlcpy[i])
+	{
+		if (test_strlcpy[i] == 'N')
+		{	printf(ANSI_RED "ft_strlcpy : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strlcpy[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strlcpy : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strlen |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strlen[i]);
+	i = 0;
+	while(test_strlen[i])
+	{
+		if (test_strlen[i] == 'N')
+		{	printf(ANSI_RED "ft_strlen : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strlen[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strlen : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+
+
 
 
 
