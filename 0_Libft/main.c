@@ -13,7 +13,15 @@
 # define ANSI_CYAN "\x1b[36m" 
 # define ANSI_RESET  "\x1b[0m"
 # define STDOUT 1
-/* static char	bzero_test(size_t len)
+
+void ft_bzero1(void * s, size_t n)
+{
+  char * c = s; // Can't work with void *s directly.
+  size_t i;
+  for (i = 0; i < n; ++i)
+    c[i] = '\0';
+}
+static char	bzero_test(size_t len)
 {
 	void	*a;
 	void	*b;
@@ -27,7 +35,7 @@
 		return ('\0');
 
 	ft_bzero(a, len);
-	bzero(b, len);
+	ft_bzero1(b, len);
 	diff = memcmp(a, b, len);
 	free(a);
 	free(b);
@@ -36,7 +44,7 @@
 	else
 		return ('N');
 }
-*/
+
 static char	atoi_test(const char *str)
 {
 	if (ft_atoi(str) == atoi(str))
@@ -369,7 +377,7 @@ static char	strdup_test(const char *s1)
 		return ('N');
 }
 
-/* static void my_toupper(unsigned int i, char *c)
+/*static void my_toupper(unsigned int i, char *c)
 {
 	if (*(c) >= 'a' && *(c) <= 'z')
 		*(c) -=  32;
@@ -378,7 +386,7 @@ static char	strdup_test(const char *s1)
 
 }
 
-static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *expected)
+ static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *expected)
 {
 	int		diff;
 
@@ -421,42 +429,24 @@ static char	strlcat_test(char *dst, char *dste, const char *src, size_t dstsize)
 		return ('N');
 }
 
-size_t ft_strlcpy1(char *dst, const char *src, size_t dstsize)
+size_t ft_strlcpy1(char *dest, const char *src, size_t dstsize)
 {
-    size_t offset;
+	size_t	i;
 
-    /* duplicate the string up to dstsize */
-    offset = 0;
-        /* guard against silly dstsize values */
-    if( dstsize > 0 )
-    {
-        while( *(src+offset) != '\0' )
-        {
-            /* bail if dstsize is met */
-
-
-            /* duplicate the string */
-            *(dst+offset) = *(src+offset);
-            offset++;
-		if( offset == dstsize)
-            {
-                offset--;
-                break;
-            }
-        }
-    }
-    /* always remember to cap a created string! */
-    *(dst+offset) = '\0';
-    
-    /* return the string length of src */
-    while( *(src+offset) != '\0' )
-        offset++;
-
-    return(offset);
+	i = 0;
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (i < dstsize - 1 && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (ft_strlen(src));
 }
 
 
-static char	strlcpy_test(const char *src, size_t dstsize)
+static char	strlcpy_test(const char *src123, size_t dstsize123)
 {
 	char	*dst1;
 	char	*dst2;
@@ -464,15 +454,15 @@ static char	strlcpy_test(const char *src, size_t dstsize)
 	size_t	ret2;
 	int		diff;
 
-	dst1 = (char *)malloc(sizeof(char) * dstsize);
+	dst1 = (char *)malloc(sizeof(char) * dstsize123);
 	if (dst1 == NULL)
 		return ('\0');
-	dst2 = (char *)malloc(sizeof(char) * dstsize);
+	dst2 = (char *)malloc(sizeof(char) * dstsize123);
 	if (dst2 == NULL)
 		return ('\0');
 	
-	ret1 = ft_strlcpy(dst1, src, dstsize);
-	ret2 = ft_strlcpy1(dst2, src, dstsize);
+	ret1 = ft_strlcpy(dst1, src123, dstsize123);
+	ret2 = ft_strlcpy1(dst2, src123, dstsize123);
 	printf("%s | %s\n", dst1, dst2);
 	diff = strcmp(dst1, dst2);
 	free(dst1);
@@ -493,10 +483,26 @@ static char	strlen_test(char *str)
 		return ('N');
 }
 
+/*static char	strmapi_test(char const *s, char (*f)(unsigned int, char), char const *expected)
+{
+	char	*created;
+	int		diff;
+
+	created = ft_strmapi(s, (*f));
+	diff = 0;
+	if (!(created == NULL && expected == NULL))
+		diff = strcmp(created, expected);
+	free(created);
+	if (diff == 0)
+		return ('o');
+	else
+		return ('x');
+}*/
+
 int main()
 {
 	char	*test_atoi;
-	//char	*test_bzero;
+	char	*test_bzero;
 	char	*test_calloc;
 	char	*alnum_test;
 	char	*test_isalpha;
@@ -517,6 +523,7 @@ int main()
 	char	*test_strlcat;
 	char	*test_strlcpy;
 	char	*test_strlen;
+	//char	*test_strmapi;
 
 	char	*str;
 	char	s1[] = "Born 2 code";
@@ -572,7 +579,7 @@ int main()
 
 
 	test_atoi = (char *)malloc(sizeof(char) * 19);
-	//test_bzero = (char *)malloc(sizeof(char) * 4);
+	test_bzero = (char *)malloc(sizeof(char) * 4);
 	alnum_test = (char *)malloc(sizeof(char) * 10);
 	test_calloc = (char *)malloc(sizeof(char) * 4);
 	test_isalpha = (char *)malloc(sizeof(char) * 6);
@@ -593,6 +600,8 @@ int main()
 	test_strlcat = (char *)malloc(sizeof(char) * 12);
 	test_strlcpy = (char *)malloc(sizeof(char) * 7);
 	test_strlen = (char *)malloc(sizeof(char) * 4);
+	//test_strmapi = (char *)malloc(sizeof(char) * 6);
+
 
 
 	test_atoi[0] = atoi_test("42");
@@ -614,10 +623,10 @@ int main()
 	test_atoi[16] = atoi_test("		    +-2147483648");
 	test_atoi[17] = atoi_test("  		  	+0");
 	test_atoi[18] = '\0';
-	/* test_bzero[0] = bzero_test(10);
+	test_bzero[0] = bzero_test(10);
 	test_bzero[1] = bzero_test(42);
 	test_bzero[2] = bzero_test(0);
-	test_bzero[3] = '\0'; */
+	test_bzero[3] = '\0';
 	test_calloc[0] = calloc_test(100, sizeof(int));
 	test_calloc[1] = calloc_test(42, sizeof(unsigned char));
 	test_calloc[2] = calloc_test(333, sizeof(long));
@@ -798,14 +807,24 @@ int main()
 	test_strlcpy[0] = strlcpy_test("Born2code", 20);
 	test_strlcpy[1] = strlcpy_test("133713377", 9);
 	test_strlcpy[2] = strlcpy_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", 30);
-	test_strlcpy[3] = strlcpy_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", 0);
-	test_strlcpy[4] = strlcpy_test("", 10);
-	test_strlcpy[5] = strlcpy_test("", 0);
+	test_strlcpy[3] = strlcpy_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", 4);
+	test_strlcpy[4] = strlcpy_test("sdjkvncdjnsdjk", 10);
+	test_strlcpy[5] = strlcpy_test("sjklcn sdjkc", 2);
 	test_strlcpy[6] = '\0';
 	test_strlen[0] = strlen_test("ksldjfvndjkfvndf");
 	test_strlen[1] = strlen_test("sùpc,ksmdjncvskdlcnsdilck");
 	test_strlen[2] = strlen_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		");
 	test_strlen[3] = '\0';
+	/* test_strmapi[0] = strmapi_test("abcdefg", &my_toupper, "ABCDEFG");
+	test_strmapi[1] = strmapi_test("98afid8776&1idk", &my_toupper, "98AFID8776&1IDK");
+	test_strmapi[2] = strmapi_test("don't panic!!", &my_toupper, "DON'T PANIC!!");
+	test_strmapi[3] = strmapi_test(NULL, &my_toupper, NULL);
+	test_strmapi[4] = strmapi_test("are you ok?", NULL, NULL);
+	test_strmapi[5] = '\0'; */
+
+
+
+
 
 
 
@@ -831,10 +850,27 @@ int main()
 	}
 	k++;
 	printf("\n");	
-	/*	j++;
-	 printf("ft_bzero \n");
-	for(i = 0; i < 3; ++i)
-		printf("test [%d] = %c \n", i , test_bzero[i]); */
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_bzero |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 4; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i , test_bzero[i]);
+	while(test_bzero[i])
+	{
+		if (test_bzero[i] == 'N')
+		{	printf(ANSI_RED "ft_bzero : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_bzero[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_bzero : OK\n");
+		j++;
+	}
+	k++;
+	printf("\n");
 	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_calloc |\n");
 	printf(" ----------- \n");
@@ -1288,6 +1324,33 @@ int main()
 	}
 	k++;	
 	printf("\n");
+	/* printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strmapi |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 5; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strmapi[i]);
+	i = 0;
+	while(test_strmapi[i])
+	{
+		if (test_strmapi[i] == 'N')
+		{	printf(ANSI_RED "ft_strmapi : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strmapi[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strmapi : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n"); */
+
+
+
+
+
 
 
 
