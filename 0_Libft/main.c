@@ -463,7 +463,6 @@ static char	strlcpy_test(const char *src123, size_t dstsize123)
 	
 	ret1 = ft_strlcpy(dst1, src123, dstsize123);
 	ret2 = ft_strlcpy1(dst2, src123, dstsize123);
-	printf("%s | %s\n", dst1, dst2);
 	diff = strcmp(dst1, dst2);
 	free(dst1);
 	free(dst2);
@@ -499,6 +498,97 @@ static char	strlen_test(char *str)
 		return ('x');
 }*/
 
+
+static char	strncmp_test(char *s1, char *s2, size_t n)
+{
+	if (ft_strncmp(s1, s2, n) == strncmp(s1, s2, n))
+		return ('Y');
+	else
+		return ('N');
+}
+
+char	*ft_strnstr1(const char *haystack, const char *needle, size_t len)
+{
+	size_t index;
+	size_t jndex;
+
+	if (*needle == '\0')
+		return ((char *)haystack);
+	if (len == 0)
+		return (NULL);
+	index = 0;
+	jndex = 0;
+	while (1)
+	{
+		if (needle[jndex] == '\0')
+			return ((char *)(haystack + (index - jndex)));
+		if (haystack[index] == needle[jndex])
+			jndex++;
+		else
+		{
+			index -= jndex;
+			jndex = 0;
+		}
+		if (haystack[index] == '\0' || index >= len)
+			return (NULL);
+		index++;
+	}
+}
+
+static char	strnstr_test(const char *haystack, const char *needle, size_t len)
+{
+	if (ft_strnstr(haystack, needle, len) == ft_strnstr1(haystack, needle, len))
+		return ('Y');
+	else
+		return ('N');
+}
+
+
+static char	strrchr_test(char *str, int c)
+{
+	if (ft_strrchr(str, c) == strrchr(str, c))
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	strtrim_test(char const *s1, char const *set, char const *expected)
+{
+	char	*created;
+	int		diff;
+
+	created = ft_strtrim(s1, set);
+/*
+	printf("created  is %s\n", created);
+	printf("expected is %s\n", expected);
+*/
+	diff = 0;
+	if (!(created == NULL && expected == NULL))
+		diff = strcmp(created, expected);
+	free(created);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	substr_test(char const *s, unsigned int start, size_t len, char const *expected)
+{
+	char	*created;
+	int		diff;
+
+	created = ft_substr(s, start, len);
+	diff = 0;
+	if (!(created == NULL && expected == NULL))
+		diff = strcmp(created, expected);
+	free(created);
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+
 int main()
 {
 	char	*test_atoi;
@@ -524,6 +614,16 @@ int main()
 	char	*test_strlcpy;
 	char	*test_strlen;
 	//char	*test_strmapi;
+	char	*test_strncmp;
+	char	*test_strnstr;
+	char	*test_strrchr;
+	char	*test_strtrim;
+	char	*test_substr;
+
+
+
+
+
 
 	char	*str;
 	char	s1[] = "Born 2 code";
@@ -534,6 +634,10 @@ int main()
 	//char	s6[] = "abcdefg";
 	//char	s7[] = "98afid8776&1idk";	
 	//char	s8[] = "osidfnsldkf!!";	
+	char	s9[] = "abcdefghijklmnopqrstvwxyz1234567890";
+	char	s10[] = "abcde1234567";
+	char	s11[] = "133742";
+	char	s12[] = "1337BG";
 	char	src9[] = "67890";
 	char	src10[] = "67890";
 	char	src11[] = "67890";
@@ -601,6 +705,12 @@ int main()
 	test_strlcpy = (char *)malloc(sizeof(char) * 7);
 	test_strlen = (char *)malloc(sizeof(char) * 4);
 	//test_strmapi = (char *)malloc(sizeof(char) * 6);
+	test_strncmp = (char *)malloc(sizeof(char) * 6);
+	test_strnstr = (char *)malloc(sizeof(char) * 12);
+	test_strrchr = (char *)malloc(sizeof(char) * 7);
+	test_strtrim = (char *)malloc(sizeof(char) * 9);
+	test_substr = (char *)malloc(sizeof(char) * 8);
+
 
 
 
@@ -821,6 +931,52 @@ int main()
 	test_strmapi[3] = strmapi_test(NULL, &my_toupper, NULL);
 	test_strmapi[4] = strmapi_test("are you ok?", NULL, NULL);
 	test_strmapi[5] = '\0'; */
+	
+	test_strncmp[0] = strncmp_test(s9, s10, 5);
+	test_strncmp[1] = strncmp_test(s11, s12, 2);
+	test_strncmp[2] = strncmp_test(s11, s12, 3);
+	test_strncmp[3] = strncmp_test(s11, s12, 4);
+	test_strncmp[4] = strncmp_test("You are awesome", "You are special", 7);
+	test_strncmp[5] = strncmp_test("1337: Born2code", "1337: Future is loading", 5);
+	test_strncmp[6] = '\0';	
+	test_strnstr[0] = strnstr_test("Welcome to 1337", "1337", 18);
+	test_strnstr[1] = strnstr_test("Welcome to 1337", "1337", 17);
+	test_strnstr[2] = strnstr_test("DON'T PANIC!!", " PA", 20);
+	test_strnstr[3] = strnstr_test("DON'T PANIC!!", " Pa", 20);
+	test_strnstr[4] = strnstr_test("DON'T PANIC!!", " PA", 4);
+	test_strnstr[5] = strnstr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		!", "{}\"sik", 100);
+	test_strnstr[6] = strnstr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		!", "{}\"sik", 0);
+	test_strnstr[7] = strnstr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		!", "00", 100);
+	test_strnstr[8] = strnstr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		!", "", 100);
+	test_strnstr[9] = strnstr_test("", "123456", 100);
+	test_strnstr[10] = strnstr_test("", "", 0);
+	test_strnstr[11] = '\0';
+	test_strrchr[0] = strrchr_test("Welcome to 42MA", 'e');
+	test_strrchr[1] = strrchr_test("DON'T PANIC!!", ' ');
+	test_strrchr[2] = strrchr_test("DON'T PANIC!!", '@');
+	test_strrchr[3] = strrchr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", '*');
+	test_strrchr[4] = strrchr_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		", '	');
+	test_strrchr[5] = '\0';
+	test_strtrim[0] = strtrim_test("@@@###42***&&&&", "@#*&", "42");
+	test_strtrim[1] = strtrim_test("DON'T PANIC!!", "D!", "ON'T PANIC");
+	test_strtrim[2] = strtrim_test("	  	  	dddisNice trimitkdls		  ", "	 distkdl", "Nice trim");
+	test_strtrim[3] = strtrim_test("not trim", "*&&^", "not trim");
+	test_strtrim[4] = strtrim_test("not trim", "", "not trim");
+	test_strtrim[5] = strtrim_test("set is NULL", NULL, NULL);
+	test_strtrim[6] = strtrim_test(NULL, "s1 is NULL", NULL);
+	test_strtrim[7] = strtrim_test(NULL, NULL, NULL);
+	test_strtrim[8] = '\0';
+	test_substr[0] = substr_test("Stay hungry, stay foolish", 5, 6, "hungry");
+	test_substr[1] = substr_test("The Hitchhiker's Guide to the Galaxy", 17, 5, "Guide");
+	test_substr[2] = substr_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !", 30, 3, "kgc");
+	test_substr[3] = substr_test("Stay hungry, stay foolish", 0, 100, "Stay hungry, stay foolish");
+	test_substr[4] = substr_test("The Hitchhiker's Guide to the Galaxy", 17, 0, "");
+	test_substr[5] = substr_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !", 100, 100, "");
+	test_substr[6] = substr_test(NULL, 100, 100, NULL);
+	test_substr[7] = '\0';
+
+
+
 
 
 
@@ -1346,7 +1502,116 @@ int main()
 	}
 	k++;	
 	printf("\n"); */
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strncmp |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 6; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strncmp[i]);
+	i = 0;
+	while(test_strncmp[i])
+	{
+		if (test_strncmp[i] == 'N')
+		{	printf(ANSI_RED "ft_stncmp : KO\n");
+			break;
+		}
+		i++;
+	}
 
+	if (test_strncmp[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strncmp : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strnstr |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 11; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strnstr[i]);
+	i = 0;
+	while(test_strnstr[i])
+	{
+		if (test_strnstr[i] == 'N')
+		{	printf(ANSI_RED "ft_strnstr : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strnstr[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strnstr : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strrchr |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 5; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strrchr[i]);
+	i = 0;
+	while(test_strrchr[i])
+	{
+		if (test_strrchr[i] == 'N')
+		{	printf(ANSI_RED "ft_strrchr : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strrchr[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strrchr : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_strtrim |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 8; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_strtrim[i]);
+	i = 0;
+	while(test_strtrim[i])
+	{
+		if (test_strtrim[i] == 'N')
+		{	printf(ANSI_RED "ft_strtrim : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_strtrim[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_strtrim : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ----------- \n");
+	printf("| ft_substr |\n");
+	printf(" ----------- \n");
+	for(i = 0; i < 7; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_substr[i]);
+	i = 0;
+	while(test_substr[i])
+	{
+		if (test_substr[i] == 'N')
+		{	printf(ANSI_RED "ft_substr : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_substr[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_substr : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
 
 
 
