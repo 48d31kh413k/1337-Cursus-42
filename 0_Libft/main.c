@@ -377,7 +377,7 @@ static char	strdup_test(const char *s1)
 		return ('N');
 }
 
-/*static void my_toupper(unsigned int i, char *c)
+static void my_toupper(unsigned int i, char *c)
 {
 	if (*(c) >= 'a' && *(c) <= 'z')
 		*(c) -=  32;
@@ -388,16 +388,13 @@ static char	strdup_test(const char *s1)
 
  static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *expected)
 {
-	int		diff;
 
 	ft_striteri(s, (*f));
-	diff = 0;
-	diff = strcmp(s, expected);
-	if (diff == 0)
+	if (s == expected)
 		return ('Y');
 	else
 		return ('N');
-} */
+}
 
 
 static char	strjoin_test(char const *s1, char const *s2, char const *expected)
@@ -588,6 +585,36 @@ static char	substr_test(char const *s, unsigned int start, size_t len, char cons
 		return ('N');
 }
 
+static char	tolower_test(int c)
+{
+	int	b;
+
+	b = c;
+	c = ft_tolower(c);
+	if (b >= 65 && b <= 90)
+		b = c + 32;
+	if (c == b)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	toupper_test(int c)
+{
+	int	b;
+
+	b = c;
+	c = ft_toupper(c);
+	if (b >= 97 && b <= 122)
+		b = c - 32;
+	if (c == b)
+		return ('Y');
+	else
+		return ('N');
+}
+
+
+
 
 int main()
 {
@@ -608,7 +635,7 @@ int main()
 	char	*test_split;
 	char	*test_strchr;
 	char	*test_strdup;	
-	//char	*test_striteri;	
+	char	*test_striteri;	
 	char	*test_strjoin;
 	char	*test_strlcat;
 	char	*test_strlcpy;
@@ -619,7 +646,8 @@ int main()
 	char	*test_strrchr;
 	char	*test_strtrim;
 	char	*test_substr;
-
+	char	*test_tolower;
+	char	*test_toupper;
 
 
 
@@ -631,9 +659,9 @@ int main()
 	char	s3[] = "Lorem ipsum dolor sit amet";
 	char	s4[] = "Aenean porttitor sit amet mauris quis sodales.";
 	char	s5[] = "Aenean eleifend nibh ac dui elementum consectetur.";
-	//char	s6[] = "abcdefg";
-	//char	s7[] = "98afid8776&1idk";	
-	//char	s8[] = "osidfnsldkf!!";	
+	char	s6[] = "abcdefg";
+	char	s7[] = "98afid8776&1idk";	
+	char	s8[] = "osidfnsldkf!!";	
 	char	s9[] = "abcdefghijklmnopqrstvwxyz1234567890";
 	char	s10[] = "abcde1234567";
 	char	s11[] = "133742";
@@ -699,7 +727,7 @@ int main()
 	test_split = (char *)malloc(sizeof(char) * 7);
 	test_strchr = (char *)malloc(sizeof(char) * 7);
 	test_strdup = (char *)malloc(sizeof(char) * 5);
-	//test_striteri = (char *)malloc(sizeof(char) * 6);
+	test_striteri = (char *)malloc(sizeof(char) * 6);
 	test_strjoin = (char *)malloc(sizeof(char) * 7);
 	test_strlcat = (char *)malloc(sizeof(char) * 12);
 	test_strlcpy = (char *)malloc(sizeof(char) * 7);
@@ -710,6 +738,10 @@ int main()
 	test_strrchr = (char *)malloc(sizeof(char) * 7);
 	test_strtrim = (char *)malloc(sizeof(char) * 9);
 	test_substr = (char *)malloc(sizeof(char) * 8);
+	test_tolower = (char *)malloc(sizeof(char) * 8);
+	test_toupper = (char *)malloc(sizeof(char) * 8);
+
+
 
 
 
@@ -889,12 +921,12 @@ int main()
 	test_strdup[2] = strdup_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !");
 	test_strdup[3] = strdup_test("");
 	test_strdup[4] = '\0';
-	/* test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
+	test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
 	test_striteri[1] = striteri_test(s7, &my_toupper, "98AFID8776&1IDK");
 	test_striteri[2] = striteri_test(s8, &my_toupper, "OSIDFNSLDKF!!");
 	test_striteri[3] = striteri_test("ABCD", &my_toupper, "ABCD");
 	test_striteri[4] = striteri_test("func is null", &my_toupper, "FUNC IS NULL");
-	test_striteri[5] = '\0';	*/	
+	test_striteri[5] = '\0';	
 	test_strjoin[0] = strjoin_test("1337", " 42", "1337 42");
 	test_strjoin[1] = strjoin_test("42", " Network", "42 Network");
 	test_strjoin[2] = strjoin_test("Live", " Free", "Live Free");
@@ -974,6 +1006,29 @@ int main()
 	test_substr[5] = substr_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !", 100, 100, "");
 	test_substr[6] = substr_test(NULL, 100, 100, NULL);
 	test_substr[7] = '\0';
+	test_tolower[0] = tolower_test('a');
+	test_tolower[1] = tolower_test('t');
+	test_tolower[2] = tolower_test('S');
+	test_tolower[3] = tolower_test('P');
+	test_tolower[4] = tolower_test('7');
+	test_tolower[5] = tolower_test(' ');
+	test_tolower[6] = tolower_test('$');
+	test_tolower[7] = '\0';
+	test_toupper[0] = toupper_test('a');
+	test_toupper[1] = toupper_test('t');
+	test_toupper[2] = toupper_test('R');
+	test_toupper[3] = toupper_test('I');
+	test_toupper[4] = toupper_test('7');
+	test_toupper[5] = toupper_test(' ');
+	test_toupper[6] = toupper_test('$');
+	test_toupper[7] = '\0';
+
+
+
+
+
+
+
 
 
 
@@ -1280,30 +1335,6 @@ int main()
 	}
 	k++;
 	printf("\n");
-	/* printf(ANSI_BLUE " --------------- \n");
-	printf("| ft_putchar_fd |\n");
-	printf(" --------------- \n");
-	printf(ANSI_MAGENTA "\\\\\\\\!!1337!!////\n");
-	ft_putchar_fd('\\', STDOUT);
-	ft_putchar_fd('\\', STDOUT);
-	ft_putchar_fd('\\', STDOUT);
-	ft_putchar_fd('\\', STDOUT);
-	ft_putchar_fd('!', STDOUT);
-	ft_putchar_fd('!', STDOUT);
-	ft_putchar_fd('1', STDOUT);
-	ft_putchar_fd('3', STDOUT);
-	ft_putchar_fd('3', STDOUT);
-	ft_putchar_fd('7', STDOUT);
-	ft_putchar_fd('!', STDOUT);
-	ft_putchar_fd('!', STDOUT);
-	ft_putchar_fd('/', STDOUT);
-	ft_putchar_fd('/', STDOUT);
-	ft_putchar_fd('/', STDOUT);
-	ft_putchar_fd('/', STDOUT);
-	ft_putchar_fd('\n', STDOUT);
-	j++;
-	k++;
-	printf("\n"); */
 	printf(ANSI_BLUE " ---------- \n");
 	printf("| ft_split |\n");
 	printf(" ---------- \n");
@@ -1370,7 +1401,7 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	 /* printf(ANSI_BLUE " ------------- \n");
+	printf(ANSI_BLUE " ------------- \n");
 	printf("| ft_striteri |\n");
 	printf(" ------------- \n");
 	for(i = 0; i < 5; ++i)
@@ -1391,7 +1422,7 @@ int main()
 		j++;
 	}
 	k++;	
-	printf("\n"); */
+	printf("\n");
 	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_strjoin |\n");
 	printf(" ------------ \n");
@@ -1524,9 +1555,9 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	printf(ANSI_BLUE " ----------- \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_strnstr |\n");
-	printf(" ----------- \n");
+	printf(" ------------ \n");
 	for(i = 0; i < 11; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_strnstr[i]);
 	i = 0;
@@ -1546,9 +1577,9 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	printf(ANSI_BLUE " ----------- \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_strrchr |\n");
-	printf(" ----------- \n");
+	printf(" ------------ \n");
 	for(i = 0; i < 5; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_strrchr[i]);
 	i = 0;
@@ -1568,9 +1599,9 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	printf(ANSI_BLUE " ----------- \n");
+	printf(ANSI_BLUE " ------------ \n");
 	printf("| ft_strtrim |\n");
-	printf(" ----------- \n");
+	printf(" ------------ \n");
 	for(i = 0; i < 8; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_strtrim[i]);
 	i = 0;
@@ -1586,6 +1617,50 @@ int main()
 	if (test_strtrim[i] == '\0')
 	{
 		printf(ANSI_GREEN "ft_strtrim : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------ \n");
+	printf("| ft_tolower |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 7; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_tolower[i]);
+	i = 0;
+	while(test_tolower[i])
+	{
+		if (test_tolower[i] == 'N')
+		{	printf(ANSI_RED "ft_tolower : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_tolower[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_tolower : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------ \n");
+	printf("| ft_toupper |\n");
+	printf(" ------------ \n");
+	for(i = 0; i < 7; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_toupper[i]);
+	i = 0;
+	while(test_toupper[i])
+	{
+		if (test_toupper[i] == 'N')
+		{	printf(ANSI_RED "ft_toupper : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_toupper[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_toupper : OK\n");
 		j++;
 	}
 	k++;	
@@ -1612,6 +1687,7 @@ int main()
 	}
 	k++;	
 	printf("\n");
+
 
 
 
