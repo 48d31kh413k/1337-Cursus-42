@@ -24,12 +24,66 @@ int main()
 	char	s1[] = "1337bg";
 	char	s2[] = "42 Network";
 	char	s3[] = "Live the life to the fullest";
-
-	printf(ANSI_BLUE " --------------- \n");
-	printf("| ft_putchar_fd |\n");
-	printf(" --------------- \n");
-	printf(ANSI_MAGENTA "\\\\\\\\!!1337!!////");
-	printf(ANSI_GREEN"\n");
+	char	s[] = " ---------------";
+	char	s4[] = "| ft_putendl_fd |";
+	char	s5[] = "| ft_putnbr_fd |";
+	char	s6[] = "| ft_putstr_fd |";
+	printf(ANSI_BLUE "\n --------------- \n");
+	printf("| test_putchar_fd |\n");
+	printf(" ----------------- \n");
+	printf(ANSI_GREEN "\\\\\\\\!!1337!!////\n");
+	ft_putchar_fd(' ', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+	ft_putchar_fd('|', STDOUT);
+	ft_putchar_fd(' ', STDOUT);
+	ft_putchar_fd('f', STDOUT);
+	ft_putchar_fd('t', STDOUT);
+	ft_putchar_fd('_', STDOUT);
+	ft_putchar_fd('p', STDOUT);
+	ft_putchar_fd('u', STDOUT);
+	ft_putchar_fd('t', STDOUT);
+	ft_putchar_fd('c', STDOUT);
+	ft_putchar_fd('h', STDOUT);
+	ft_putchar_fd('a', STDOUT);
+	ft_putchar_fd('r', STDOUT);
+	ft_putchar_fd('_', STDOUT);
+	ft_putchar_fd('f', STDOUT);
+	ft_putchar_fd('d', STDOUT);
+	ft_putchar_fd(' ', STDOUT);
+	ft_putchar_fd('|', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+	ft_putchar_fd(' ', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('-', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 	ft_putchar_fd('\\', STDOUT);
 	ft_putchar_fd('\\', STDOUT);
 	ft_putchar_fd('\\', STDOUT);
@@ -47,71 +101,86 @@ int main()
 	ft_putchar_fd('/', STDOUT);
 	ft_putchar_fd('/', STDOUT);
 	ft_putchar_fd('\n', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	k++;
 	printf(ANSI_RESET"\n");
 	printf(ANSI_BLUE " --------------- \n");
 	printf("| ft_putendl_fd |\n");
 	printf(" --------------- \n");
-	printf(ANSI_MAGENTA "%s", s1);
-	printf(ANSI_GREEN"\n");
+	ft_putendl_fd(s, STDOUT);
+	ft_putendl_fd(s4, STDOUT);
+	ft_putendl_fd(s, STDOUT);
+	printf(ANSI_GREEN "%s\n", s1);
 	ft_putendl_fd(s1, STDOUT);
-	printf(ANSI_MAGENTA "%s", s2);
-	printf(ANSI_GREEN"\n");
+	printf(ANSI_MAGENTA "%s\n", s2);
 	ft_putendl_fd(s2, STDOUT);
-	printf(ANSI_MAGENTA "%s", s3);
-	printf(ANSI_GREEN"\n");
+	printf(ANSI_MAGENTA "%s\n", s3);
 	ft_putendl_fd(s3, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	k++;
 	printf(ANSI_RESET"\n");
 	printf(ANSI_BLUE " --------------- \n");
 	printf("| ft_putnbr_fd |\n");
 	printf(" --------------- \n");
+	ft_putendl_fd(s, STDOUT);
+	ft_putendl_fd(s5, STDOUT);
+	ft_putendl_fd(s, STDOUT);
+
 	n = 42;
 	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
 	ft_putnbr_fd(n, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 
 	n = 33333;
 	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
 	ft_putnbr_fd(n, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 
 	n = -1458746;
 	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
 	ft_putnbr_fd(n, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 
 	n = 0;
 	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
 	ft_putnbr_fd(n, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 
 	n = 2147483647;
 	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
 	ft_putnbr_fd(n, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
 
 	n = -2147483647;
-	printf(ANSI_MAGENTA "\n%ld", n);
-	printf(ANSI_GREEN"\n");
+	printf(ANSI_MAGENTA "\n%ld\n", n);
 	ft_putnbr_fd(n, STDOUT);	
+	ft_putchar_fd('\n', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	k++;
 	printf(ANSI_RESET"\n");
 	printf(ANSI_BLUE " --------------- \n");
 	printf("| ft_putstr_fd |\n");
 	printf(" --------------- \n");
+	ft_putendl_fd(s, STDOUT);
+	ft_putendl_fd(s6, STDOUT);
+	ft_putendl_fd(s, STDOUT);
 	printf(ANSI_MAGENTA "\n%s", s1);
-	printf(ANSI_GREEN"\n");
 	ft_putstr_fd(s1, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	printf(ANSI_MAGENTA "\n%s", s2);
-	printf(ANSI_GREEN"\n");
 	ft_putstr_fd(s2, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	printf(ANSI_MAGENTA "\n%s", s3);
-	printf(ANSI_GREEN"\n");
 	ft_putstr_fd(s3, STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+
 	k++;
 	printf(ANSI_RESET"\n");
-
-	printf(ANSI_YELLOW "TOTAL = %d functions\n", k);
+	printf(ANSI_YELLOW "\nTOTAL = %d functions\n", k);
 	return (0);
 }

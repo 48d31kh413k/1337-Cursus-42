@@ -388,9 +388,10 @@ static void my_toupper(unsigned int i, char *c)
 
  static char	striteri_test(char *s, void (*f)(unsigned int, char*), char const *expected)
 {
-
+	int	diff = 0;
 	ft_striteri(s, (*f));
-	if (s == expected)
+	diff = strcmp(s, expected);
+	if (diff == 0)
 		return ('Y');
 	else
 		return ('N');
@@ -479,7 +480,16 @@ static char	strlen_test(char *str)
 		return ('N');
 }
 
-/*static char	strmapi_test(char const *s, char (*f)(unsigned int, char), char const *expected)
+static char my_toupper1(unsigned int i, char c)
+{
+	if ((c) >= 'a' && (c) <= 'z')
+		(c) -=  32;
+	i += 5 + 3;
+	i -= 8;
+	return (c);
+}
+
+static char	strmapi_test(char const *s, char (*f)(unsigned int, char), char const *expected)
 {
 	char	*created;
 	int		diff;
@@ -490,10 +500,10 @@ static char	strlen_test(char *str)
 		diff = strcmp(created, expected);
 	free(created);
 	if (diff == 0)
-		return ('o');
+		return ('Y');
 	else
-		return ('x');
-}*/
+		return ('N');
+}
 
 
 static char	strncmp_test(char *s1, char *s2, size_t n)
@@ -592,7 +602,7 @@ static char	tolower_test(int c)
 	b = c;
 	c = ft_tolower(c);
 	if (b >= 65 && b <= 90)
-		b = c + 32;
+		b += 32;
 	if (c == b)
 		return ('Y');
 	else
@@ -606,7 +616,7 @@ static char	toupper_test(int c)
 	b = c;
 	c = ft_toupper(c);
 	if (b >= 97 && b <= 122)
-		b = c - 32;
+		b -= 32;
 	if (c == b)
 		return ('Y');
 	else
@@ -640,7 +650,7 @@ int main()
 	char	*test_strlcat;
 	char	*test_strlcpy;
 	char	*test_strlen;
-	//char	*test_strmapi;
+	char	*test_strmapi;
 	char	*test_strncmp;
 	char	*test_strnstr;
 	char	*test_strrchr;
@@ -660,12 +670,27 @@ int main()
 	char	s4[] = "Aenean porttitor sit amet mauris quis sodales.";
 	char	s5[] = "Aenean eleifend nibh ac dui elementum consectetur.";
 	char	s6[] = "abcdefg";
-	char	s7[] = "98afid8776&1idk";	
+	char	s61[] = "ABCDEFG";
+	char	s7[] = "98afid8776&1idk";
+	char	s71[] = "98AFID8776&1IDK";	
 	char	s8[] = "osidfnsldkf!!";	
+	char	s81[] = "OSIDFNSLDKF!!";
+	char	s82[] = "born2cOde";
+	char	s83[] = "BORN2CODE";
+	char	s84[] = "abcde1234567";
+	char	s85[] = "ABCDE1234567";
 	char	s9[] = "abcdefghijklmnopqrstvwxyz1234567890";
 	char	s10[] = "abcde1234567";
 	char	s11[] = "133742";
 	char	s12[] = "1337BG";
+	char	s121[] = "1337benguerir";
+	char	s122[] = "1337BENGUERIR";
+	char	s123[] = "42netWork";
+	char	s124[] = "42NETWORK";
+	char	s125[] = "Future";
+	char	s126[] = "FUTURE";
+	char	s127[] = "MentalI&ty";
+	char	s128[] = "MENTALI&TY";
 	char	src9[] = "67890";
 	char	src10[] = "67890";
 	char	src11[] = "67890";
@@ -677,6 +702,7 @@ int main()
 	char	src17[] = "67890";
 	char	src18[] = "42";
 	char	src19[] = "Born2code";
+	
 	int	array[] = {33, 42, 100, 9999, 1031, -339382, 222222222};
 	int	array1[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
 	int	array2[] = {22, -5736, 8873, 283790, -44837, 0, 5574, 42};
@@ -732,7 +758,7 @@ int main()
 	test_strlcat = (char *)malloc(sizeof(char) * 12);
 	test_strlcpy = (char *)malloc(sizeof(char) * 7);
 	test_strlen = (char *)malloc(sizeof(char) * 4);
-	//test_strmapi = (char *)malloc(sizeof(char) * 6);
+	test_strmapi = (char *)malloc(sizeof(char) * 6);
 	test_strncmp = (char *)malloc(sizeof(char) * 6);
 	test_strnstr = (char *)malloc(sizeof(char) * 12);
 	test_strrchr = (char *)malloc(sizeof(char) * 7);
@@ -921,11 +947,11 @@ int main()
 	test_strdup[2] = strdup_test("sikgi@@@kaig	gk aTADk kfdai))dkgcka}!@#	 !");
 	test_strdup[3] = strdup_test("");
 	test_strdup[4] = '\0';
-	test_striteri[0] = striteri_test(s6, &my_toupper, "ABCDEFG");
-	test_striteri[1] = striteri_test(s7, &my_toupper, "98AFID8776&1IDK");
-	test_striteri[2] = striteri_test(s8, &my_toupper, "OSIDFNSLDKF!!");
-	test_striteri[3] = striteri_test("ABCD", &my_toupper, "ABCD");
-	test_striteri[4] = striteri_test("func is null", &my_toupper, "FUNC IS NULL");
+	test_striteri[0] = striteri_test(s6, &my_toupper, s61);
+	test_striteri[1] = striteri_test(s7, &my_toupper, s71);
+	test_striteri[2] = striteri_test(s8, &my_toupper, s81);
+	test_striteri[3] = striteri_test(s82, &my_toupper, s83);
+	test_striteri[4] = striteri_test(s84, &my_toupper, s85);
 	test_striteri[5] = '\0';	
 	test_strjoin[0] = strjoin_test("1337", " 42", "1337 42");
 	test_strjoin[1] = strjoin_test("42", " Network", "42 Network");
@@ -957,12 +983,12 @@ int main()
 	test_strlen[1] = strlen_test("sùpc,ksmdjncvskdlcnsdilck");
 	test_strlen[2] = strlen_test("@@@jdifjkkkgidlsliie!!*{}\"sikggjenck\"^icsh		");
 	test_strlen[3] = '\0';
-	/* test_strmapi[0] = strmapi_test("abcdefg", &my_toupper, "ABCDEFG");
-	test_strmapi[1] = strmapi_test("98afid8776&1idk", &my_toupper, "98AFID8776&1IDK");
-	test_strmapi[2] = strmapi_test("don't panic!!", &my_toupper, "DON'T PANIC!!");
-	test_strmapi[3] = strmapi_test(NULL, &my_toupper, NULL);
-	test_strmapi[4] = strmapi_test("are you ok?", NULL, NULL);
-	test_strmapi[5] = '\0'; */
+	test_strmapi[0] = strmapi_test(s121, &my_toupper1, s122);
+	test_strmapi[1] = strmapi_test(s123, &my_toupper1, s124);
+	test_strmapi[2] = strmapi_test(s125, &my_toupper1, s126);
+	test_strmapi[3] = strmapi_test(NULL, &my_toupper1, NULL);
+	test_strmapi[4] = strmapi_test(s127, &my_toupper1, s128);
+	test_strmapi[5] = '\0';
 	
 	test_strncmp[0] = strncmp_test(s9, s10, 5);
 	test_strncmp[1] = strncmp_test(s11, s12, 2);
@@ -1511,7 +1537,7 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	/* printf(ANSI_BLUE " ----------- \n");
+	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_strmapi |\n");
 	printf(" ----------- \n");
 	for(i = 0; i < 5; ++i)
@@ -1532,7 +1558,7 @@ int main()
 		j++;
 	}
 	k++;	
-	printf("\n"); */
+	printf("\n");
 	printf(ANSI_BLUE " ----------- \n");
 	printf("| ft_strncmp |\n");
 	printf(" ----------- \n");
