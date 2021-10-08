@@ -88,12 +88,130 @@ static void	lstdelone_test(t_list *list)
 	while (current != NULL)
 	{	
 		next = current->next;
-		printf("content  is %s\n", (char *)current->content);
+		//printf("content  is %s\n", (char *)current->content);
 		ft_lstdelone(current, free);
 		current = next;
-		printf("list[%d] is deleted\n", i);
+		//printf("list[%d] is deleted\n", i);
 		i++;
 	}
+}
+
+static void	my_toupper(void *content)
+{
+	int		i;
+	char	*copy;
+
+	if (content == NULL)
+		return ;
+	copy = (char *)content;
+	i = 0;
+	while (copy[i] != '\0')
+	{
+		if (copy[i] >= 'a' && copy[i] <= 'z')
+			copy[i] -= 32;
+		i++;
+	}
+}
+
+
+static char	lstiter_test(t_list *element, const char *expected)
+{
+	int		diff;
+
+	diff = strcmp(element->content, expected);
+/*
+	printf("content  is %s\n", element->content);
+	printf("expected is %s\n", expected);
+*/
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	lstlast_test(t_list *list, const char *expected)
+{
+	t_list	*last;
+	int		diff;
+
+	last = ft_lstlast(list);
+	diff = strcmp(last->content, expected);
+/*
+	printf("content  is %s\n", last->content);
+	printf("expected is %s\n", expected);
+*/
+	if (last->next == NULL && diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static void	*my_toupper1(void *content)
+{
+	char	*ret;
+	char	*copy;
+	int		i;
+
+	if (content == NULL)
+		return (NULL);
+
+	copy = (char *)content;
+	ret = (char *)malloc(sizeof(char) * (strlen(copy) + 1));
+	if (ret == NULL)
+		return (NULL);
+
+	i = 0;
+	while (copy[i] != '\0')
+	{
+		if (copy[i] >= 'a' && copy[i] <= 'z')
+			ret[i] = copy[i] - ('a' - 'A');
+		else
+			ret[i] = copy[i];
+		i++;
+	}
+	return (ret);
+}
+
+static char	lstmap_test(t_list *element, const char *expected)
+{
+	int		diff;
+
+	diff = strcmp(element->content, expected);
+/*
+	printf("content  is %s\n", element->content);
+	printf("expected is %s\n", expected);
+*/
+	if (diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	lstnew_test(t_list *latest, const char *expected)
+{
+	int		diff;
+
+	diff = strcmp(latest->content, expected);
+/*
+	printf("content  is %s\n", latest->content);
+	printf("expected is %s\n", expected);
+*/
+	if (latest->next == NULL && diff == 0)
+		return ('Y');
+	else
+		return ('N');
+}
+
+static char	lstsize_test(t_list *list, int	expected_size)
+{
+/*
+	printf("func return size is %d\n", ft_lstsize(list));
+	printf("expected size    is %d\n", expected_size);
+*/
+	if (ft_lstsize(list) == expected_size)
+		return ('Y');
+	else
+		return ('N');
 }
 
 
@@ -104,6 +222,11 @@ int main()
 	char	*test_lstadd_front;
 	char	*test_lstclear;
 	char	*test_lstdelone;
+	char	*test_lstiter;
+	char	*test_lstlast;
+	char	*test_lstmap;
+	char	*test_lstnew;
+	char	*test_lstsize;
 	t_list	*list;
 	t_list	*list1;
 	t_list	*new;
@@ -112,6 +235,18 @@ int main()
 	t_list	*new3;
 	t_list	*list2;
 	t_list	*new2;
+	t_list	*list4;
+	t_list	*new4;
+	t_list	*list5;
+	t_list	*new5;
+	t_list	*list6;
+	t_list	*list7;
+	t_list	*new6;
+	t_list	*list8;
+	t_list	*new8;
+	t_list	*list9;
+	t_list	*new9;
+
 
 	int	j = 0;
 	int	k = 0;
@@ -126,7 +261,11 @@ int main()
 	test_lstadd_front = (char *)malloc(sizeof(char) * 4);
 	test_lstclear = (char *)malloc(sizeof(char) * 2);
 	test_lstdelone = (char *)malloc(sizeof(char) * 2);
-
+	test_lstiter = (char *)malloc(sizeof(char) * 4);
+	test_lstlast = (char *)malloc(sizeof(char) * 4);
+	test_lstmap = (char *)malloc(sizeof(char) * 4);
+	test_lstnew = (char *)malloc(sizeof(char) * 4);
+	test_lstsize = (char *)malloc(sizeof(char) * 4);
 
 
 
@@ -159,16 +298,16 @@ int main()
 	ft_lstadd_front(&list1, new1);
 	test_lstadd_front[2] = lstadd_front_test(list1, "three");
 	test_lstadd_front[3] = '\0';
-	listfree(list1);
+	//listfree(list1);
 
 
 	list3 = NULL;
 	new3 = ft_lstnew(strdup("o"));
 	ft_lstadd_back(&list3, new3);
-	printf("%s\n", (char *)list3->content);
 	ft_lstclear(&list3, free);
 	test_lstclear[0] = lstclear_test(list3);
 	test_lstclear[1] = '\0';
+	//listfree(list3);
 
 
 	list2 = NULL;
@@ -181,7 +320,86 @@ int main()
 	lstdelone_test(list2);
 	test_lstdelone[0] = lstclear_test1(list2);
 	test_lstdelone[1] = '\0';
+	//listfree(list2);
+
 	
+
+	list4 = NULL;
+	new4 = ft_lstnew(strdup("one"));
+	ft_lstadd_back(&list4, new4);
+	new4 = ft_lstnew(strdup("two"));
+	ft_lstadd_back(&list4, new4);
+	new4 = ft_lstnew(strdup("three"));
+	ft_lstadd_back(&list4, new4);
+	ft_lstiter(list4, &my_toupper);
+	test_lstiter[0] = lstiter_test(list4, "ONE");
+	test_lstiter[1] = lstiter_test(list4->next, "TWO");
+	test_lstiter[2] = lstiter_test(list4->next->next, "THREE");
+	test_lstiter[3] = '\0';
+	//listfree(list4);
+
+
+	
+
+	list5 = NULL;
+	new5 = ft_lstnew(strdup("one"));
+	list5 = new5;
+	test_lstlast[0] = lstlast_test(list5, "one");
+	new5 = ft_lstnew(strdup("two"));
+	list5->next = new5;
+	test_lstlast[1] = lstlast_test(list5, "two");
+	new5 = ft_lstnew(strdup("three"));
+	list5->next->next = new5;
+	test_lstlast[2] = lstlast_test(list5, "three");
+	test_lstlast[3] = '\0';
+	//listfree(list5);
+
+
+
+	list6 = NULL;
+	new6 = ft_lstnew(strdup("one"));
+	ft_lstadd_back(&list6, new6);
+	new6 = ft_lstnew(strdup("two"));
+	ft_lstadd_back(&list6, new6);
+	new6 = ft_lstnew(strdup("three"));
+	ft_lstadd_back(&list6, new6);
+	list7 = ft_lstmap(list6, &my_toupper1, free);
+	test_lstmap[0] = lstmap_test(list7, "ONE");
+	test_lstmap[1] = lstmap_test(list7->next, "TWO");
+	test_lstmap[2] = lstmap_test(list7->next->next, "THREE");
+	test_lstmap[3] = '\0';
+	//listfree(list6);
+	//listfree(list7);
+
+
+
+
+	list8 = NULL;
+	list8 = ft_lstnew(strdup("one"));
+	test_lstnew[0] = lstnew_test(list8, "one");
+	new8 = ft_lstnew(strdup("two"));
+	list8->next = new8;
+	test_lstnew[1] = lstnew_test(list8->next, "two");
+	new8 = ft_lstnew(strdup("three"));
+	list8->next->next = new8;
+	test_lstnew[2] = lstnew_test(list8->next->next, "three");
+	test_lstnew[3] = '\0';
+	//listfree(list8);
+
+
+
+	list9 = NULL;
+	new9 = ft_lstnew(strdup("one"));
+	list9 = new9;
+	test_lstsize[0] = lstsize_test(list9, 1);
+	new9 = ft_lstnew(strdup("two"));
+	list9->next = new9;
+	test_lstsize[1] = lstsize_test(list9, 2);
+	new9 = ft_lstnew(strdup("three"));
+	list9->next->next = new9;
+	test_lstsize[2] = lstsize_test(list9, 3);
+	test_lstsize[3] = '\0';
+	//listfree(list9);
 
 
 
@@ -253,9 +471,9 @@ int main()
 	}
 	k++;	
 	printf("\n");
-	printf(ANSI_BLUE " ------------- \n");
+	printf(ANSI_BLUE " -------------- \n");
 	printf("| ft_lstdelone |\n");
-	printf(" ------------- \n");
+	printf(" -------------- \n");
 	for(i = 0; i < 1; ++i)
 		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstdelone[i]);
 	i = 0;
@@ -275,8 +493,116 @@ int main()
 	}
 	k++;	
 	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_lstiter |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstiter[i]);
+	i = 0;
+	while(test_lstiter[i])
+	{
+		if (test_lstiter[i] == 'N')
+		{	printf(ANSI_RED "ft_lstiter : KO\n");
+			break;
+		}
+		i++;
+	}
 
+	if (test_lstiter[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_lstiter : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_lstlast |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstlast[i]);
+	i = 0;
+	while(test_lstlast[i])
+	{
+		if (test_lstlast[i] == 'N')
+		{	printf(ANSI_RED "ft_lstlast : KO\n");
+			break;
+		}
+		i++;
+	}
 
+	if (test_lstlast[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_lstlast : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_lstmap |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstmap[i]);
+	i = 0;
+	while(test_lstmap[i])
+	{
+		if (test_lstmap[i] == 'N')
+		{	printf(ANSI_RED "ft_lstmap : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_lstmap[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_lstmap : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_lstnew |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstnew[i]);
+	i = 0;
+	while(test_lstnew[i])
+	{
+		if (test_lstnew[i] == 'N')
+		{	printf(ANSI_RED "ft_lstnew : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_lstnew[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_lstnew : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
+	printf(ANSI_BLUE " ------------- \n");
+	printf("| ft_lstsize |\n");
+	printf(" ------------- \n");
+	for(i = 0; i < 3; ++i)
+		printf(ANSI_RESET "test [%d] = %c \n", i, test_lstsize[i]);
+	i = 0;
+	while(test_lstsize[i])
+	{
+		if (test_lstsize[i] == 'N')
+		{	printf(ANSI_RED "ft_lstnew : KO\n");
+			break;
+		}
+		i++;
+	}
+
+	if (test_lstsize[i] == '\0')
+	{
+		printf(ANSI_GREEN "ft_lstsize : OK\n");
+		j++;
+	}
+	k++;	
+	printf("\n");
 
 
 
