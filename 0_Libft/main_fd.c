@@ -105,9 +105,9 @@ int main()
 
 	k++;
 	printf(ANSI_RESET"\n");
-	printf(ANSI_BLUE " --------------- \n");
-	printf("| ft_putendl_fd |\n");
-	printf(" --------------- \n");
+	printf(ANSI_BLUE " ----------------- \n");
+	printf("| test_putendl_fd |\n");
+	printf(" ----------------- \n");
 	ft_putendl_fd(s, STDOUT);
 	ft_putendl_fd(s4, STDOUT);
 	ft_putendl_fd(s, STDOUT);
@@ -121,9 +121,9 @@ int main()
 
 	k++;
 	printf(ANSI_RESET"\n");
-	printf(ANSI_BLUE " --------------- \n");
-	printf("| ft_putnbr_fd |\n");
-	printf(" --------------- \n");
+	printf(ANSI_BLUE " ----------------- \n");
+	printf("| test_putnbr_fd |\n");
+	printf(" ---------------- \n");
 	ft_putendl_fd(s, STDOUT);
 	ft_putendl_fd(s5, STDOUT);
 	ft_putendl_fd(s, STDOUT);
@@ -161,9 +161,9 @@ int main()
 
 	k++;
 	printf(ANSI_RESET"\n");
-	printf(ANSI_BLUE " --------------- \n");
-	printf("| ft_putstr_fd |\n");
-	printf(" --------------- \n");
+	printf(ANSI_BLUE " ----------------- \n");
+	printf("| test_putstr_fd |\n");
+	printf(" ---------------- \n");
 	ft_putendl_fd(s, STDOUT);
 	ft_putendl_fd(s6, STDOUT);
 	ft_putendl_fd(s, STDOUT);
