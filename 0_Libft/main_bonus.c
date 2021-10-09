@@ -69,9 +69,9 @@ static char lstclear_test(t_list *a)
 		return ('N');
 }
 
-static char lstdelone_test(t_list *a)
+static char lstdelone_test(t_list *a, char *expected)
 {
-	if (a == NULL)
+	if (a->content != expected)
 		return ('Y');
 	else
 		return ('N');
@@ -314,8 +314,7 @@ int main()
 	new2 = ft_lstnew(strdup("A"));
 	ft_lstadd_back(&list2, new2);
 	ft_lstdelone(list2, free);
-	printf("%s\n", (char *)list2->content);
-	test_lstdelone[0] = lstdelone_test(list2);
+	test_lstdelone[0] = lstdelone_test(list2, "A");
 	test_lstdelone[1] = '\0';
 	//listfree(list2);
 
