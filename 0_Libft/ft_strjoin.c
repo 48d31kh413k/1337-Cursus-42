@@ -7,7 +7,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len;
 	int		j;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
@@ -17,11 +17,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	new = (char *)malloc(sizeof(char) * len + 1);
 	if (!new)
 		return (NULL);
-	while (s1[i])
-	{
+	while (s1[++i])
 		new[i] = s1[i];
-		i++;
-	}
 	while (s2[j])
 	{
 		new[i] = s2[j];
