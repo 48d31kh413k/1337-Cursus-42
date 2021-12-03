@@ -1,5 +1,6 @@
 # 42-Cursus-1337
-My all projects of 42Network at 1337 Benguerir.
+My all projects of 42Network at 1337 Benguerir. 
+ ![](https://komarev.com/ghpvc/?username=your-github-username&label=Repository+views)
 
 # My progress
 |Circle | Project | Language | Description | Score | Level |
