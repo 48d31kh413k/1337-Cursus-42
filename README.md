@@ -2,8 +2,8 @@
 My all projects of 42Network at 1337 Benguerir. 
 
 # My progress
-|Circle | Project | Language | Description | Score | Level |
-|:-----:|:-------:|:--------:|:-----------:|:-----:|:-----:|
+|Circle | Project | Language | Description | Score | 
+|:-----:|:-------:|:--------:|:-----------:|:-----:|
 |00| [Libft](https://github.com/48d31kh413k/1337-Libft-42) | C | C library for 42 projects | 125% |
 |01| [ft_printf](https://github.com/48d31kh413k/1337-ft_printf-42) | C | Recode Printf | 100% |
 |01| [Get Next Line](https://github.com/48d31kh413k/1337-Get_Next_Line-42) | C | Function that returns a line, read from a file descriptor. | 125% |
