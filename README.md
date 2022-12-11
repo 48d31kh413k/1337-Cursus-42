@@ -10,6 +10,6 @@ My all projects of 42Network at 1337 Benguerir.
 |01| [Born2beroot](https://github.com/48d31kh413k/1337-Born2beRoot-42) | C | System Administration. | 110% |
 |02| [Exam 02](https://github.com/48d31kh413k/1337-exam_rank_02-42) | C | Final Exam piscine. | 100% |
 |02| [Minitalk]() | C | small data exchange program using UNIX signals. | 125% |
-|02| [Push Swap]() | C | Sorting Data Qlgorithms. | 125% |
+|02| [Push Swap]() | C | Sorting Data Algorithms. | 125% |
 |02| [so Long]() | C | Small 2D game. | 125% |
 |03| [Exam 03]() | C | Printf/gnl. | 100% |
