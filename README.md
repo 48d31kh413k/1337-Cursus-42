@@ -13,3 +13,4 @@ My all projects of 42Network at 1337 Benguerir.
 |02| [Push Swap](https://github.com/48d31kh413k/1337-push_swap-42) | C | Sorting Data Algorithms. | 125% |
 |02| [so Long](https://github.com/48d31kh413k/1337-so_long-42) | C | Small 2D game. | 125% |
 |03| [Exam 03](https://github.com/48d31kh413k/1337-exam_rank_03-42) | C | Printf/gnl. | 100% |
+|03| [Philosophers](https://github.com/48d31kh413k/1337-Philosopher-42) | C | | 125% |
